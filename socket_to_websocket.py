@@ -1,6 +1,7 @@
 import asyncio
 import socket
 import websockets
+import socket
 
 async def handle_socket_data(websocket, path):
     # Connect to the socket
@@ -14,6 +15,11 @@ async def handle_socket_data(websocket, path):
     sock.close()
 
 # Start the WebSocket server
-start_server = websockets.serve(handle_socket_data, 'localhost', 8765)
+
+serverSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM);
+serverSocket.bind(("127.0.0.1",8765));
+serverSocket.listen();
+
+start_server = websockets.serve(handle_socket_data, '127.0.0.1', 8765)
 asyncio.get_event_loop().run_until_complete(start_server)
 asyncio.get_event_loop().run_forever()
