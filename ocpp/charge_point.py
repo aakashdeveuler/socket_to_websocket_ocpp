@@ -4,6 +4,8 @@ import logging
 import re
 import time
 import uuid
+import socket
+import mysql.connector
 from dataclasses import asdict
 from typing import Dict, List, Union
 
@@ -11,8 +13,15 @@ from ocpp.exceptions import NotSupportedError, OCPPError
 from ocpp.messages import Call, MessageType, unpack, validate_payload
 from ocpp.routing import create_route_map
 
+
 LOGGER = logging.getLogger("ocpp")
 
+mydb = mysql.connector.connect(
+  host="localhost",
+  user="root",
+  password="root",
+  database="socketsteve"
+)
 
 def camel_to_snake_case(data):
     """
@@ -126,7 +135,11 @@ class ChargePoint:
         while True:
             message = await self._connection.recv()
             LOGGER.info("%s: receive message %s", self.id, message)
+            mycursor = mydb.cursor()
+            sql = "INSERT INTO bootnotificationtotcu (message) VALUES (%s)"
+            mycursor.execute(sql, (message,))
 
+            mydb.commit()
             await self.route_message(message)
 
     async def route_message(self, raw_msg):
