@@ -2,6 +2,7 @@ import asyncio
 import logging
 import json
 import websockets
+from socket_to_websocket import data_final 
 
 from ocpp.v16 import ChargePoint as cp
 from ocpp.v16 import call
