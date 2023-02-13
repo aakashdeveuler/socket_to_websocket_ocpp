@@ -60,11 +60,11 @@ if __name__ == "__main__":
         list = json.loads(Decoded_data)
         data = list[3]
         mycursor = mydb.cursor()
+        id = list[1]
 
-        sql = "INSERT INTO bootnotificationtosteve (message) VALUES (%s)"
-        val = [data]
-        mycursor.execute(sql, (Decoded_data,))
+        sql = "INSERT INTO bootnotificationtosteve (id, message) VALUES (%s, %s)"
+        mycursor.execute(sql, (id, Decoded_data))
 
         mydb.commit()
-        # clientConnected.send();
+        ## clientConnected.send();
         asyncio.run(main())

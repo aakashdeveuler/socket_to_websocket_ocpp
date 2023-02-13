@@ -4,7 +4,7 @@ import logging
 import re
 import time
 import uuid
-import socket
+import json
 import mysql.connector
 from dataclasses import asdict
 from typing import Dict, List, Union
@@ -135,9 +135,10 @@ class ChargePoint:
         while True:
             message = await self._connection.recv()
             LOGGER.info("%s: receive message %s", self.id, message)
+            listMsg = json.loads(message)
             mycursor = mydb.cursor()
-            sql = "INSERT INTO bootnotificationtotcu (message) VALUES (%s)"
-            mycursor.execute(sql, (message,))
+            sql = "INSERT INTO bootnotificationtotcu (id, message) VALUES (%s, %s)"
+            mycursor.execute(sql, (listMsg[1], message))
 
             mydb.commit()
             await self.route_message(message)
