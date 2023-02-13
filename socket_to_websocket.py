@@ -1,4 +1,5 @@
 import socket
+import json
 
 data_final=""
 serverSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM);
@@ -13,3 +14,7 @@ while(True):
     Decoded_data=dataFromClient.decode();
     data_final=Decoded_data
     print(type(Decoded_data), "               ", Decoded_data);
+    list = json.loads(data_final)
+    print(type(list), "            ")
+    data = list[3]
+    print(type(data), "            ", data)
