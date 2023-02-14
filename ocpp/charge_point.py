@@ -139,7 +139,6 @@ class ChargePoint:
             mycursor = mydb.cursor()
             sql = "INSERT INTO bootnotificationtotcu (id, message) VALUES (%s, %s)"
             mycursor.execute(sql, (listMsg[1], message))
-
             mydb.commit()
             await self.route_message(message)
 
@@ -345,5 +344,4 @@ class ChargePoint:
         mycursor.execute(sql, (sendmsg[1], message))
         mydb.commit()
         
-        mydb.close()
         await self._connection.send(message)
