@@ -14,7 +14,7 @@ logging.basicConfig(level=logging.INFO)
 mydb = mysql.connector.connect(
   host="localhost",
   user="root",
-  password="root",
+  password="password",
   database="socketsteve"
 )
 
@@ -56,15 +56,15 @@ if __name__ == "__main__":
         print("Accepted a connection request from %s:%s"%(clientAddress[0], clientAddress[1]));
         dataFromClient = clientConnected.recv(1024)
         Decoded_data=dataFromClient.decode();
-        # data_final=Decoded_data
+        data_final=Decoded_data
         list = json.loads(Decoded_data)
         data = list[3]
-        mycursor = mydb.cursor()
-        id = list[1]
+        # mycursor = mydb.cursor()
+        # id = list[1]
 
-        sql = "INSERT INTO bootnotificationtosteve (id, message) VALUES (%s, %s)"
-        mycursor.execute(sql, (id, Decoded_data))
+        # sql = "INSERT INTO bootnotificationtosteve (id, message) VALUES (%s, %s)"
+        # mycursor.execute(sql, (id, Decoded_data))
 
-        mydb.commit()
+        # mydb.commit()
         ## clientConnected.send();
         asyncio.run(main())

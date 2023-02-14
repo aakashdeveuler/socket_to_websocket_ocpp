@@ -19,7 +19,7 @@ LOGGER = logging.getLogger("ocpp")
 mydb = mysql.connector.connect(
   host="localhost",
   user="root",
-  password="root",
+  password="password",
   database="socketsteve"
 )
 
@@ -339,4 +339,11 @@ class ChargePoint:
 
     async def _send(self, message):
         LOGGER.info("%s: send %s", self.id, message)
+        sendmsg = json.loads(message)
+        mycursor = mydb.cursor()
+        sql = "INSERT INTO bootnotificationtosteve (id, message) VALUES (%s, %s)"
+        mycursor.execute(sql, (sendmsg[1], message))
+        mydb.commit()
+        
+        mydb.close()
         await self._connection.send(message)
