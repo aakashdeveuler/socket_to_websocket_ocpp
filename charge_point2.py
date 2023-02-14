@@ -23,14 +23,12 @@ data={}
 
 class ChargePoint(cp):
     async def send_boot_notification(self):
-        print(data.get("chargePointModel"))
         request = call.BootNotificationPayload(
             charge_point_model=data.get("chargePointModel"), charge_point_vendor=data.get("chargePointVendor")
         )
           
         response = await self.call(request)
         if response.status == RegistrationStatus.accepted:
-            # print(response)
             print("Connected to central system.")
 
 
@@ -56,15 +54,8 @@ if __name__ == "__main__":
         print("Accepted a connection request from %s:%s"%(clientAddress[0], clientAddress[1]));
         dataFromClient = clientConnected.recv(1024)
         Decoded_data=dataFromClient.decode();
-        # data_final=Decoded_data
         list = json.loads(Decoded_data)
         data = list[3]
-        mycursor = mydb.cursor()
-        id = list[1]
-
-        sql = "INSERT INTO bootnotificationtosteve (id, message) VALUES (%s, %s)"
-        mycursor.execute(sql, (id, Decoded_data))
-
-        mydb.commit()
-        ## clientConnected.send();
+        
+        # clientConnected.send();
         asyncio.run(main())

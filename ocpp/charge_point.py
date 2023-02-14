@@ -139,7 +139,6 @@ class ChargePoint:
             mycursor = mydb.cursor()
             sql = "INSERT INTO bootnotificationtotcu (id, message) VALUES (%s, %s)"
             mycursor.execute(sql, (listMsg[1], message))
-
             mydb.commit()
             await self.route_message(message)
 
@@ -339,4 +338,10 @@ class ChargePoint:
 
     async def _send(self, message):
         LOGGER.info("%s: send %s", self.id, message)
+        sendmsg = json.loads(message)
+        mycursor = mydb.cursor()
+        sql = "INSERT INTO bootnotificationtosteve (id, message) VALUES (%s, %s)"
+        mycursor.execute(sql, (sendmsg[1], message))
+        mydb.commit()
+        
         await self._connection.send(message)
