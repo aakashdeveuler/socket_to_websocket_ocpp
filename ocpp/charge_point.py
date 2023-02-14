@@ -19,7 +19,7 @@ LOGGER = logging.getLogger("ocpp")
 mydb = mysql.connector.connect(
   host="localhost",
   user="root",
-  password="password",
+  password="root",
   database="socketsteve"
 )
 

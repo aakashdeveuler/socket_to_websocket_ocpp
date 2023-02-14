@@ -10,4 +10,4 @@ clientSocket.send(data.encode());
 
 
 
-dataFromServer =  clientSocket.recv(1024);
+# dataFromServer =  clientSocket.recv(1024);

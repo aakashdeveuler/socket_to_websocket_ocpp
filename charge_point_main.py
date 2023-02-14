@@ -11,16 +11,6 @@ from ocpp.v16.enums import RegistrationStatus
 
 logging.basicConfig(level=logging.INFO)
 
-mydb = mysql.connector.connect(
-  host="localhost",
-  user="root",
-  password="password",
-  database="socketsteve"
-)
-
-
-data={}
-
 class ChargePoint(cp):
     async def send_boot_notification(self):
         request = call.BootNotificationPayload(
