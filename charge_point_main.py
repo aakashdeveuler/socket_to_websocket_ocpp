@@ -14,7 +14,7 @@ logging.basicConfig(level=logging.INFO)
 mydb = mysql.connector.connect(
   host="localhost",
   user="root",
-  password="root",
+  password="password",
   database="socketsteve"
 )
 
