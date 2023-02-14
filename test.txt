@@ -1,1 +1,0 @@
-[2, "9ba16a4e-037f-4a20-9b5d-20f975ff4545", "BootNotification", {"chargePointVendor": "Euler", "chargePointModel": "123456789", "chargePointSerialNumber": "", "chargeBoxSerialNumber": "", "firmwareVersion": "", "iccid": "", "imsi": "", "meterSerialNumber": "", "meterType": ""}]
