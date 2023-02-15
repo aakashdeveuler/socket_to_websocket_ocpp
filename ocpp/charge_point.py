@@ -141,6 +141,9 @@ class ChargePoint:
             mycursor.execute(sql, (listMsg[1], message))
             mydb.commit()
             await self.route_message(message)
+            
+            break
+    
 
     async def route_message(self, raw_msg):
         """
@@ -160,7 +163,6 @@ class ChargePoint:
                 e,
             )
             return
-
         if msg.message_type_id == MessageType.Call:
             try:
                 await self._handle_call(msg)
