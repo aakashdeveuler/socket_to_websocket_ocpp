@@ -10,6 +10,6 @@ clientSocket.send(data.encode())
 
 dataFromServer =  clientSocket.recv(1024)
 
-print("message from steve to tcu")
+print("message from steve to tcu 1")
 print(dataFromServer.decode())
 clientSocket.close()
