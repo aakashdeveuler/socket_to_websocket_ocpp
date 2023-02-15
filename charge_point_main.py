@@ -61,6 +61,6 @@ if __name__ == "__main__":
         mycursor.execute("SELECT * FROM bootnotificationtotcu")
         rows = mycursor.fetchall()
         print("Data sending to client")
-        print(rows[-1])
-        sendtcu = json.dumps(rows[-1])
+        # print(rows[-1])
+        sendtcu = str(rows[-1][2])
         clientConnected.send(sendtcu.encode())

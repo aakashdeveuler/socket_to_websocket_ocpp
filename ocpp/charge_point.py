@@ -19,7 +19,7 @@ LOGGER = logging.getLogger("ocpp")
 mydb = mysql.connector.connect(
   host="localhost",
   user="root",
-  password="password",
+  password="root",
   database="socketsteve"
 )
 
@@ -132,7 +132,7 @@ class ChargePoint:
         self._unique_id_generator = uuid.uuid4
 
     async def start(self):
-        # while True:
+        while True:
             message = await self._connection.recv()
             LOGGER.info("%s: receive message %s", self.id, message)
             listMsg = json.loads(message)
@@ -140,8 +140,7 @@ class ChargePoint:
             sql = "INSERT INTO bootnotificationtotcu (id, message) VALUES (%s, %s)"
             mycursor.execute(sql, (listMsg[1], message))
             mydb.commit()
-            await self.route_message(message)
-            
+            await self.route_message(message) 
             break
     
 
