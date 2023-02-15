@@ -42,6 +42,7 @@ if __name__ == "__main__":
     while(True):
         (clientConnected, clientAddress) = serverSocket.accept();
         print("Accepted a connection request from %s:%s"%(clientAddress[0], clientAddress[1]));
+
         dataFromClient = clientConnected.recv(1024)
         Decoded_data=dataFromClient.decode();
         list = json.loads(Decoded_data)
@@ -49,3 +50,4 @@ if __name__ == "__main__":
         
         # clientConnected.send();
         asyncio.run(main())
+        print('hhh')
