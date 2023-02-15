@@ -139,9 +139,17 @@ class ChargePoint:
             mycursor = mydb.cursor()
             sql = "INSERT INTO bootnotificationtotcu (id, message) VALUES (%s, %s)"
             mycursor.execute(sql, (listMsg[1], message))
+            # .......................................................
+            mycursor.execute("SELECT * FROM bootnotificationtotcu")
+            rows = mycursor.fetchall()
+            print("Data sending to client")
+            # print(rows[-1])
+            sendtcu = str(rows[-1][1])
+            
+            #.........................................................
             mydb.commit()
             await self.route_message(message) 
-            break
+            return sendtcu
     
 
     async def route_message(self, raw_msg):

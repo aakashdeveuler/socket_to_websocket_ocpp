@@ -30,21 +30,23 @@ class ChargePoint(cp):
 
 
 async def main():
+    data = ""
     async with websockets.connect(
         "ws://43.205.177.121:8080/steve/websocket/CentralSystemService/1234", subprotocols=["ocpp1.6"]
     ) as ws:
 
         cp = ChargePoint("1234", ws)
-
-        await asyncio.gather(cp.start(), cp.send_boot_notification())
-    print("asyncio.gather ended")
+        
+        val = await asyncio.gather(cp.start(), cp.send_boot_notification())
+        data = val[0]
+    return data
 
 
 if __name__ == "__main__":
     # asyncio.run() is used when running this example with Python >= 3.7v
     while(True):
         serverSocket = socket.socket(socket.AF_INET6, socket.SOCK_STREAM)
-        serverSocket.bind(("localhost",12345))
+        serverSocket.bind(("localhost", 12345))
         
         print("socket connected")
         serverSocket.listen()
@@ -58,12 +60,12 @@ if __name__ == "__main__":
             
             mycursor = mydb.cursor()
 
-            asyncio.run(main())
-            mycursor.execute("SELECT * FROM bootnotificationtotcu")
-            rows = mycursor.fetchall()
-            print("Data sending to client")
-            # print(rows[-1])
-            sendtcu = str(rows[-1][1])
-            clientConnected.send(sendtcu.encode())
+            data = asyncio.run(main())
+            # mycursor.execute("SELECT * FROM bootnotificationtotcu")
+            # rows = mycursor.fetchall()
+            # print("Data sending to client")
+            # # print(rows[-1])
+            # sendtcu = str(rows[-1][1])
+            clientConnected.send(data.encode())
             break
         
