@@ -1,6 +1,6 @@
 import socket
 
-clientSocket = socket.socket(socket.AF_INET6, socket.SOCK_STREAM)
+clientSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
 clientSocket.connect(("localhost",12345))
 print("connects")
@@ -10,6 +10,6 @@ clientSocket.send(data.encode())
 
 dataFromServer =  clientSocket.recv(1024)
 
-print("message from steve to tcu")
+print("message from steve to tcu 1")
 print(dataFromServer.decode())
 clientSocket.close()
