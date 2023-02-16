@@ -4,6 +4,7 @@ import json
 import websockets
 import socket
 import mysql.connector
+socket.getaddrinfo('fe80::c166:bbb6:ecf4:24c5%14', 12345)
 
 from ocpp.v16 import ChargePoint as cp
 from ocpp.v16 import call
@@ -46,7 +47,7 @@ if __name__ == "__main__":
     # asyncio.run() is used when running this example with Python >= 3.7v
     while(True):
         serverSocket = socket.socket(socket.AF_INET6, socket.SOCK_STREAM)
-        serverSocket.bind(("localhost", 12345))
+        serverSocket.bind(("fe80::c166:bbb6:ecf4:24c5%14", 12345))
         
         print("socket connected")
         serverSocket.listen()

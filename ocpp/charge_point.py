@@ -136,18 +136,23 @@ class ChargePoint:
             message = await self._connection.recv()
             LOGGER.info("%s: receive message %s", self.id, message)
             listMsg = json.loads(message)
+            
+            # .......................................................
+            
             mycursor = mydb.cursor()
             sql = "INSERT INTO bootnotificationtotcu (id, message) VALUES (%s, %s)"
             mycursor.execute(sql, (listMsg[1], message))
+            
             # .......................................................
+            
             mycursor.execute("SELECT * FROM bootnotificationtotcu")
             rows = mycursor.fetchall()
             print("Data sending to client")
-            # print(rows[-1])
             sendtcu = str(rows[-1][1])
+            mydb.commit()
             
             #.........................................................
-            mydb.commit()
+            
             await self.route_message(message) 
             return sendtcu
     
@@ -348,6 +353,9 @@ class ChargePoint:
     async def _send(self, message):
         LOGGER.info("%s: send %s", self.id, message)
         sendmsg = json.loads(message)
+        
+        # .......................................................
+        
         mycursor = mydb.cursor()
         sql = "INSERT INTO bootnotificationtosteve (id, message) VALUES (%s, %s)"
         mycursor.execute(sql, (sendmsg[1], message))

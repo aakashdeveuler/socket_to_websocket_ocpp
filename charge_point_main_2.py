@@ -74,7 +74,7 @@ async def main():
 if __name__ == "__main__":
     # asyncio.run() is used when running this example with Python >= 3.7v
     serverSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM);
-    serverSocket.bind(("localhost",12345));
+    serverSocket.bind(("fe80::c166:bbb6:ecf4:24c5%14",12345));
     
     print("socket connected")
     serverSocket.listen();
