@@ -4,7 +4,7 @@ import json
 import websockets
 import socket
 import threading
-socket.getaddrinfo('fe80::c166:bbb6:ecf4:24c5%14', 12345)
+socket.getaddrinfo('10.10.10.182', 12345)
 
 from ocpp.v16 import ChargePoint as cp
 from ocpp.v16 import call
@@ -42,33 +42,48 @@ if __name__ == "__main__":
     # asyncio.run() is used when running this example with Python >= 3.7v
     print("[STARTING] server is starting ....")
     
-    while(True):
-        def handle_client(conn, addr):
-            data = {}
-            print(f"[NEW CONNECTION] {addr} connected.")
-            connected = True
-            while connected:
+    # while(True):
+    serverSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    serverSocket.bind(("10.10.10.182", 12345))
+    serverSocket.listen(3)
+    
+    def handle_client(conn, addr):
+        print(f"[NEW CONNECTION] {addr} connected.")
+        connected = True
+        while connected:
+            try: 
                 print("Accepted a connection request from %s:%s"%(addr[0], addr[1]))
                 dataFromClient = conn.recv(1024).decode()
+                    
+                if dataFromClient == "!DISCONNECT":
+                    break
+                print("=--------------------")
+                print(dataFromClient)
+                print("=--------------------")
+                print(type(dataFromClient))
                 if dataFromClient == DISCONNECT_MESSAGE:
                     connected = False
                 list = json.loads(dataFromClient)
                 data=list[3]
+                receive_data = None
                 receive_data = asyncio.run(main(data))
-                clientConnected.send(receive_data.encode())
-                break
-            conn.close()
+                if receive_data != None:
+                    clientConnected.send((receive_data+str(addr[1])).encode())
+                    print("sending to ", addr[1])
+                else:
+                    clientConnected.send("nahi aaya".encode())
+                # clientConnected.send("hello"+str(addr[1]) .encode())
+                # print("Message send .....")
+            except: 
+                print("error occured ")
+                connected = False
+                conn.close()
         
-        serverSocket = socket.socket(socket.AF_INET6, socket.SOCK_STREAM)
-        serverSocket.bind(("fe80::c166:bbb6:ecf4:24c5%14", 12345))
-        serverSocket.listen()
-                                
-            
-        while(True):
-            (clientConnected, clientAddress) = serverSocket.accept()
-            thread = threading.Thread(target=handle_client, args=(clientConnected, clientAddress))
-            thread.start()
-            print(f"[ACTIVE CONNECTIONS] {threading.activeCount()-1}")
-            break
+    while(True):
+        (clientConnected, clientAddress) = serverSocket.accept()
+        thread = threading.Thread(target=handle_client, args=(clientConnected, clientAddress))
+        thread.start()
+        print(f"[ACTIVE CONNECTIONS] {threading.activeCount()-1}")
+        # break
 
         

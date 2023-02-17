@@ -70,5 +70,5 @@ if __name__ == "__main__":
             # # print(rows[-1])
             # sendtcu = str(rows[-1][1])
             clientConnected.send(recei_data.encode())
-            break
+            # break
         

@@ -1,15 +1,29 @@
 import socket
 
-clientSocket = socket.socket(socket.AF_INET6, socket.SOCK_STREAM)
+DISCONNECT_MSG = "!DISCONNECT"
 
-clientSocket.connect(("fe80::c166:bbb6:ecf4:24c5%14",12345))
+clientSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+
+clientSocket.connect(("10.10.10.182",12345))
 print("connects")
 
-data = '[2, "97496a9r-867k-4d28-969d-10f795ff4545", "BootNotification", {"chargePointVendor": "123", "chargePointModel": "Euler", "chargePointSerialNumber": "", "chargeBoxSerialNumber": "", "firmwareVersion": "", "iccid": "", "imsi": "", "meterSerialNumber": "", "meterType": ""}]'
-clientSocket.send(data.encode())
 
-dataFromServer =  clientSocket.recv(1024)
+connected = True
+while connected:
+    data = input("> ")
+    
+    clientSocket.send(data.encode())
+    if data == DISCONNECT_MSG:
+        connected = False
+    else:
+        dataFromServer =  clientSocket.recv(1024).decode()
+        print("message from steve to tcu 1")
+        print(dataFromServer)
 
-print("message from steve to tcu 1")
-print(dataFromServer.decode())
+data = '[2, "97495a9r-867k-4d28-769d-10f795ff4545", "BootNotification", {"chargePointVendor": "123", "chargePointModel": "Euler", "chargePointSerialNumber": "", "chargeBoxSerialNumber": "", "firmwareVersion": "", "iccid": "", "imsi": "", "meterSerialNumber": "", "meterType": ""}]'
+
+# dataFromServer =  clientSocket.recv(1024)
+
+# print("message from steve to tcu 1")
+# print(dataFromServer.decode())
 # clientSocket.close()
