@@ -26,4 +26,4 @@ data = '[2, "97495a9r-867k-4d28-769d-10f795ff4545", "BootNotification", {"charge
 
 # print("message from steve to tcu 1")
 # print(dataFromServer.decode())
-# clientSocket.close()
+clientSocket.close()

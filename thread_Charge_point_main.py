@@ -45,7 +45,7 @@ if __name__ == "__main__":
     # while(True):
     serverSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     serverSocket.bind(("10.10.10.182", 12345))
-    serverSocket.listen(3)
+    serverSocket.listen()
     
     def handle_client(conn, addr):
         print(f"[NEW CONNECTION] {addr} connected.")
@@ -60,7 +60,7 @@ if __name__ == "__main__":
                 print("=--------------------")
                 print(dataFromClient)
                 print("=--------------------")
-                print(type(dataFromClient))
+                # print(type(dataFromClient))
                 if dataFromClient == DISCONNECT_MESSAGE:
                     connected = False
                 list = json.loads(dataFromClient)
