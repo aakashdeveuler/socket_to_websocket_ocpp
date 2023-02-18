@@ -4,7 +4,7 @@ DISCONNECT_MSG = "!DISCONNECT"
 
 clientSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
-clientSocket.connect(("10.10.10.182",12345))
+clientSocket.connect(("localhost",12345))
 print("connects")
 
 

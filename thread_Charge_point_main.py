@@ -44,7 +44,7 @@ if __name__ == "__main__":
     
     # while(True):
     serverSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    serverSocket.bind(("10.10.10.182", 12345))
+    serverSocket.bind(("localhost", 12345))
     serverSocket.listen()
     
     def handle_client(conn, addr):
