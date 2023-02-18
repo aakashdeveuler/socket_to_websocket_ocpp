@@ -4,7 +4,7 @@ import json
 import websockets
 import socket
 import threading
-socket.getaddrinfo('10.10.10.182', 12345)
+socket.getaddrinfo('localhost', 12345)
 
 from ocpp.v16 import ChargePoint as cp
 from ocpp.v16 import call
