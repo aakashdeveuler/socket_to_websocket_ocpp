@@ -55,27 +55,28 @@ if __name__ == "__main__":
                 print("Accepted a connection request from %s:%s"%(addr[0], addr[1]))
                 dataFromClient = conn.recv(1024).decode()
                     
-                if dataFromClient == "!DISCONNECT":
-                    break
-                print("=--------------------")
-                print(dataFromClient)
-                print("=--------------------")
-                # print(type(dataFromClient))
                 if dataFromClient == DISCONNECT_MESSAGE:
                     connected = False
-                list = json.loads(dataFromClient)
-                data=list[3]
-                receive_data = None
-                receive_data = asyncio.run(main(data))
-                if receive_data != None:
-                    clientConnected.send((receive_data+str(addr[1])).encode())
-                    print("sending to ", addr[1])
-                else:
-                    clientConnected.send("nahi aaya".encode())
-                # clientConnected.send("hello"+str(addr[1]) .encode())
-                # print("Message send .....")
+                    
+                else:    
+                    print("=--------------------")
+                    print(dataFromClient)
+                    print("=--------------------")
+                    
+                    list = json.loads(dataFromClient)
+                    data=list[3]
+                    receive_data = None
+                    receive_data = asyncio.run(main(data))
+                    # print("-==-=-=-=-=-=-=-=-=")
+                    # print(receive_data)
+                    if receive_data != None:
+                        clientConnected.send((receive_data+str(addr[1])).encode())
+                        print("sending to client port: ", addr[1])
+                    else:
+                        clientConnected.send("nahi aaya".encode())
+                    
             except: 
-                print("error occured ")
+                print("error occured Steve might be down")
                 connected = False
                 conn.close()
         
@@ -83,7 +84,7 @@ if __name__ == "__main__":
         (clientConnected, clientAddress) = serverSocket.accept()
         thread = threading.Thread(target=handle_client, args=(clientConnected, clientAddress))
         thread.start()
-        print(f"[ACTIVE CONNECTIONS] {threading.activeCount()-1}")
+        print(f"[ACTIVE CONNECTIONS] {threading.active_count()-1}")
         # break
 
         
