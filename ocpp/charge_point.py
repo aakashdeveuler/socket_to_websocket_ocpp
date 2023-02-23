@@ -323,7 +323,7 @@ class ChargePoint:
             # when no '_on_after' hook is installed.
             pass
 
-    async def call(self, payload, suppress=True):
+    async def call(self, payload, dataID, suppress=True):
         """
         Send Call message to client and return payload of response.
 
@@ -348,7 +348,7 @@ class ChargePoint:
         camel_case_payload = snake_to_camel_case(asdict(payload))
 
         call = Call(
-            unique_id=str(self._unique_id_generator()),
+            unique_id=dataID,
             action=payload.__class__.__name__[:-7],
             payload=remove_nones(camel_case_payload),
         )
@@ -412,10 +412,8 @@ class ChargePoint:
     async def _send(self, message):
         LOGGER.info("%s: send %s", self.id, message)
         sendmsg = json.loads(message)
-        # print(".......................lllllll")
-        # print(message)
-        # print(len(message))
         if len(message) > 60:
+            
         # .......................................................
             
             mycursor = mydb.cursor()

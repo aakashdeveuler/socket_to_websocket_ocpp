@@ -13,9 +13,13 @@ def run_client():
         while connected:
             # Send a message to the server
             time.sleep(1)
-            boot_message = '[{"chargePointVendor": "123", "chargePointModel": "Euler"}]'
-            # message = '[2, "97495a9r-867k-4d28-769d-10f795ff4545", "BootNotification", {"chargePointVendor": "123", "chargePointModel": "Euler", "chargePointSerialNumber": "", "chargeBoxSerialNumber": "", "firmwareVersion": "", "iccid": "", "imsi": "", "meterSerialNumber": "", "meterType": ""}]'
+            # boot_message = '[{"chargePointVendor": "123", "chargePointModel": "Euler"}]'
+            # first = '[2, "97495a9r-867k-4d28-769d-10f795ff6'+str(count)
+            # second = '", "BootNotification", {"chargePointVendor": "123", "chargePointModel": "Euler", "chargePointSerialNumber": "", "chargeBoxSerialNumber": "", "firmwareVersion": "", "iccid": "", "imsi": "", "meterSerialNumber": "", "meterType": ""}]'
+            # boot_message = first+second
+            boot_message = '[2, "97495a9r-867k-4d28-769d-10f795ff45", "BootNotification", {"chargePointVendor": "123", "chargePointModel": "Euler", "chargePointSerialNumber": "", "chargeBoxSerialNumber": "", "firmwareVersion": "", "iccid": "", "imsi": "", "meterSerialNumber": "", "meterType": ""}]'
             diagnostics_message = '[{"status": "Uploaded", "errorCode": "NoError",  "info": "Test diagnostic info", "timestamp": "2022-02-22T10:10:10Z", "vendorId": "MyVendor", "vendorErrorCode": "42"}]'
+            heartBeat_message = '[2,"1234567890","HeartBeat",{}]'
             client_socket.send(boot_message.encode())
             if boot_message == DISCONNECT_MSG:
                 connected = False
