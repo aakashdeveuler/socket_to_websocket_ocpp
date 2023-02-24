@@ -1,0 +1,236 @@
+HeartBeat:-
+    Request:
+        {
+            "messageId": "1234",
+            "action": "Heartbeat",
+            "payload": {}
+        }
+    Response:
+        {
+            "messageId": "1234",
+            "status": "Accepted",
+            "payload": {
+                "currentTime": "2022-02-22T10:00:00Z"
+            }
+        }
+
+Authorize:-
+    
+    Request:
+        {
+            "messageId": "1234",
+            "action": "Authorize",
+            "payload": {
+                "idTag": "123456"
+            }
+        }
+
+    Response:
+        {
+            "messageId": "1234",
+            "status": "Accepted",
+            "payload": {
+                "idTagInfo": {
+                    "status": "Accepted",
+                    "expiryDate": "2022-03-22T10:00:00Z",
+                    "parentIdTag": null,
+                    "tagId": "123456"
+                }
+            }
+        }   
+
+Boot Notification:-
+
+    Request:
+        {
+            "messageId": "1234",
+            "action": "BootNotification",
+            "payload": {
+                "chargePointVendor": "Vendor",
+                "chargePointModel": "Model",
+                "chargePointSerialNumber": "123456",
+                "firmwareVersion": "1.0",
+                "iccid": "iccid123456",
+                "imsi": "imsi123456",
+                "meterType": "ABB123",
+                "meterSerialNumber": "789",
+                "meterFirmwareVersion": "2.0",
+                "chargePointSerialNumber": "123456"
+            }
+        }
+
+
+    Response:
+        {
+            "messageId": "1234",
+            "status": "Accepted",
+            "payload": {
+                "currentTime": "2022-02-22T10:00:00Z",
+                "interval": 600
+            }
+        }
+
+
+
+
+Data Transfer:-
+
+    Request:
+        {
+            "messageId": "1234",
+            "action": "DataTransfer",
+            "uniqueId": "5678",
+            "payload": {
+                "vendorId": "Acme",
+                "messageId": "LogData",
+                "data": "Rmlyc3ROYW1lOjogRG9l\n"
+            }
+        }
+
+
+
+    Response:
+        {
+            "messageId": "1234",
+            "uniqueId": "5678",
+            "action": "DataTransfer",
+            "payload": {
+                "status": "Accepted",
+                "data": "U3VjY2Vzc1R5cGU6OiBDb250ZW50LVR5cGUgc2V0cw==\n"
+            }
+        }
+
+
+Diagnostics Status Notification:-
+
+    Request:
+        {
+            "messageId": "1234",
+            "action": "DiagnosticsStatusNotification",
+            "payload": {
+                "status": "Uploaded",
+                "uploadStatus": {
+                    "startTime": "2022-02-22T10:00:00Z",
+                    "stopTime": "2022-02-22T10:30:00Z",
+                    "location": "ftp://example.com/diagnostics",
+                    "retries": 3,
+                    "retryInterval": 600
+                }
+            }
+        }
+
+
+    Response:
+        {
+            "messageId": "1234",
+            "status": "Accepted"
+        }
+
+
+Firmware Status Notification:-
+
+    Request:
+        {
+            "messageId": "1234",
+            "action": "FirmwareStatusNotification",
+            "payload":{
+                "status": "Downloaded",
+                "firmware":{
+                    "location": "ftp://example.com/firmware",
+                    "retrieveDate": "2022-02-22T10:00:00Z",
+                    "installDate": "2022-02-23T10:00:00Z",
+                    "signed": true,
+                    "signature": "MII...AB",
+                    "signatureType": "X.509"
+                }
+            }
+        }
+
+
+    Response:
+        {
+            "messageId": "1234",
+            "status": "Accepted"
+        }
+
+Meter Values:-
+
+    Request:
+        {
+            "messageId": "1234",
+            "action": "MeterValues",
+            "payload": {
+                "connectorId": 1,
+                "transactionId": 1234,
+                "meterValue": 
+                [
+                    {
+                        "timestamp": "2022-02-22T10:00:00Z",
+                        "sampledValue": 
+                        [
+                            {
+                                "value": "0.01",
+                                "context": "Interruption.Begin",
+                                "unit": "Wh"
+                            },
+                            {
+                                "value": "2.5",
+                                "context": "Sample.Periodic",
+                                "unit": "A"
+                            }
+                        ]
+                    },
+                    {
+                        "timestamp": "2022-02-22T10:01:00Z",
+                        "sampledValue": 
+                        [
+                            {
+                                "value": "0.02",
+                                "context": "Interruption.End",
+                                "unit": "Wh"
+                            },
+                            {
+                                "value": "3.0",
+                                "context": "Sample.Periodic",
+                                "unit": "A"
+                            }
+                        ]
+                    }
+                ]
+            }
+        }
+
+        
+
+    Response:
+        {
+            "messageId": "1234",
+            "status": "Accepted"
+        }
+
+
+Status Notification:-
+
+    Request:
+        {
+            "messageId": "1234",
+            "action": "StatusNotification",
+            "payload": {
+                "connectorId": 1,
+                "errorCode": "ConnectorLockFailure",
+                "status": "Available",
+                "timestamp": "2022-02-22T10:00:00Z",
+                "info": "Charging point is available."
+            }
+        }
+
+       
+
+
+    Response:
+        {
+            "messageId": "1234",
+            "status": "Accepted"
+        }
+
+
