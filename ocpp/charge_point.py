@@ -131,6 +131,173 @@ class ChargePoint:
         # for testing purposes to have predictable unique ids.
         self._unique_id_generator = uuid.uuid4
 
+
+    async def start_authorize(self):
+        while True:
+            message = await self._connection.recv()
+            LOGGER.info("%s: receive message %s", self.id, message)
+            listMsg = json.loads(message)
+            
+            # .......................................................
+            
+            mycursor = mydb.cursor()
+            sql = "INSERT INTO authorizetotcu (id, message) VALUES (%s, %s)"
+            mycursor.execute(sql, (listMsg[1], message))
+            
+            # .......................................................
+            
+            mycursor.execute("SELECT * FROM authorizetotcu")
+            rows = mycursor.fetchall()
+            print("Data sending to client")
+            sendtcu = str(rows[-1][1])
+            mydb.commit()
+            
+            #.........................................................
+            
+            await self.route_message(message) 
+            return sendtcu
+        
+        
+        
+        
+    async def start_statusnotification(self):
+        while True:
+            message = await self._connection.recv()
+            LOGGER.info("%s: receive message %s", self.id, message)
+            listMsg = json.loads(message)
+            
+            # .......................................................
+            
+            mycursor = mydb.cursor()
+            sql = "INSERT INTO statusnotificationtotcu (id, message) VALUES (%s, %s)"
+            mycursor.execute(sql, (listMsg[1], message))
+            
+            # .......................................................
+            
+            mycursor.execute("SELECT * FROM statusnotificationtotcu")
+            rows = mycursor.fetchall()
+            print("Data sending to client")
+            sendtcu = str(rows[-1][1])
+            mydb.commit()
+            
+            #.........................................................
+            
+            await self.route_message(message) 
+            return sendtcu
+        
+        
+    
+    async def start_datatransfer(self):
+        while True:
+            message = await self._connection.recv()
+            LOGGER.info("%s: receive message %s", self.id, message)
+            listMsg = json.loads(message)
+            
+            # .......................................................
+            
+            mycursor = mydb.cursor()
+            sql = "INSERT INTO datatransfertotcu (id, message) VALUES (%s, %s)"
+            mycursor.execute(sql, (listMsg[1], message))
+            
+            # .......................................................
+            
+            mycursor.execute("SELECT * FROM datatransfertotcu")
+            rows = mycursor.fetchall()
+            print("Data sending to client")
+            sendtcu = str(rows[-1][1])
+            mydb.commit()
+            
+            #.........................................................
+            
+            await self.route_message(message) 
+            return sendtcu
+        
+        
+    
+    async def start_diagnosticsstatusnotification(self):
+        while True:
+            message = await self._connection.recv()
+            LOGGER.info("%s: receive message %s", self.id, message)
+            listMsg = json.loads(message)
+            
+            # .......................................................
+            
+            mycursor = mydb.cursor()
+            sql = "INSERT INTO diagnosticsstatusnotificationtotcu (id, message) VALUES (%s, %s)"
+            mycursor.execute(sql, (listMsg[1], message))
+            
+            # .......................................................
+            
+            mycursor.execute("SELECT * FROM diagnosticsstatusnotificationtotcu")
+            rows = mycursor.fetchall()
+            print("Data sending to client")
+            sendtcu = str(rows[-1][1])
+            mydb.commit()
+            
+            #.........................................................
+            
+            await self.route_message(message) 
+            return sendtcu
+        
+        
+    
+        
+        
+    async def start_firmwarestatusnotification(self):
+        while True:
+            message = await self._connection.recv()
+            LOGGER.info("%s: receive message %s", self.id, message)
+            listMsg = json.loads(message)
+            
+            # .......................................................
+            
+            mycursor = mydb.cursor()
+            sql = "INSERT INTO firmwarestatusnotificationtotcu (id, message) VALUES (%s, %s)"
+            mycursor.execute(sql, (listMsg[1], message))
+            
+            # .......................................................
+            
+            mycursor.execute("SELECT * FROM firmwarestatusnotificationtotcu")
+            rows = mycursor.fetchall()
+            print("Data sending to client")
+            sendtcu = str(rows[-1][1])
+            mydb.commit()
+            
+            #.........................................................
+            
+            await self.route_message(message) 
+            return sendtcu
+        
+        
+    async def start_metervalues(self):
+        while True:
+            message = await self._connection.recv()
+            LOGGER.info("%s: receive message %s", self.id, message)
+            listMsg = json.loads(message)
+            
+            # .......................................................
+            
+            mycursor = mydb.cursor()
+            sql = "INSERT INTO metervaluestotcu (id, message) VALUES (%s, %s)"
+            mycursor.execute(sql, (listMsg[1], message))
+            
+            # .......................................................
+            
+            mycursor.execute("SELECT * FROM metervaluestotcu")
+            rows = mycursor.fetchall()
+            print("Data sending to client")
+            sendtcu = str(rows[-1][1])
+            mydb.commit()
+            
+            #.........................................................
+            
+            await self.route_message(message) 
+            return sendtcu
+        
+    
+
+
+
     async def start_bootnotification(self):
         while True:
             message = await self._connection.recv()
@@ -412,19 +579,45 @@ class ChargePoint:
     async def _send(self, message):
         LOGGER.info("%s: send %s", self.id, message)
         sendmsg = json.loads(message)
-        if len(message) > 60:
-            
-        # .......................................................
-            
+        action = sendmsg[2]
+        if action == "BootNotification":
             mycursor = mydb.cursor()
             sql = "INSERT INTO bootnotificationtosteve (id, message) VALUES (%s, %s)"
             mycursor.execute(sql, (sendmsg[1], message))
             mydb.commit()
             
             
-        else:
+        elif action == "Heartbeat":
             mycursor = mydb.cursor()
             sql = "INSERT INTO heartbeattosteve (id, message) VALUES (%s, %s)"
+            mycursor.execute(sql, (sendmsg[1], message))
+            mydb.commit()
+            
+            
+        elif action == "Authorize":
+            mycursor = mydb.cursor()
+            sql = "INSERT INTO authorizetosteve (id, message) VALUES (%s, %s)"
+            mycursor.execute(sql, (sendmsg[1], message))
+            mydb.commit()
+            
+            
+        elif action == "DataTransfer":
+            mycursor = mydb.cursor()
+            sql = "INSERT INTO datatransfertosteve (id, message) VALUES (%s, %s)"
+            mycursor.execute(sql, (sendmsg[1], message))
+            mydb.commit()
+            
+        
+        elif action == "DiagnosticsStatusNotification":
+            mycursor = mydb.cursor()
+            sql = "INSERT INTO diagnosticsstatusnotificationtosteve (id, message) VALUES (%s, %s)"
+            mycursor.execute(sql, (sendmsg[1], message))
+            mydb.commit()
+            
+            
+        elif action == "FirmwareStatusNotification":
+            mycursor = mydb.cursor()
+            sql = "INSERT INTO firmwarestatusnotificationtosteve (id, message) VALUES (%s, %s)"
             mycursor.execute(sql, (sendmsg[1], message))
             mydb.commit()
         
