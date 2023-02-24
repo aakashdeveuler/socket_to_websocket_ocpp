@@ -15,14 +15,17 @@ def run_client():
             time.sleep(1)
             boot_message = '[2, "97495a9r-867k-4d28-769d-10f795ff45", "BootNotification", {"chargePointVendor": "123", "chargePointModel": "Euler", "chargePointSerialNumber": "", "chargeBoxSerialNumber": "", "firmwareVersion": "", "iccid": "", "imsi": "", "meterSerialNumber": "", "meterType": ""}]'
             heartBeat_message = '[2,"1234567890","HeartBeat",{}]'
-            authorize_message = '[2,"1234","Authorize", {"idTag": "100"}]'
+            authorize_message = '[2,"1234","Authorize", {"idTag": "2001"}]'
             dataTransfer_message = '[2,"1234","DataTransfer",{"vendorId": "Acme","messageId": "LogData","data": "Rmlyc3ROYW1lOjogRG9l"}]'
-            statusNotification_message = '[2,"1234","StatusNotification",{"connectorId": 1,"errorCode": "ConnectorLockFailure","status": "Available","timestamp": "2022-02-22T10:00:00Z","info": "Charging point is available."}]'
+            statusNotification_message = '[2,"1234","StatusNotification",{"connectorId": 98,"errorCode": "ConnectorLockFailure","status": "Available"}]'
             diagnosticsstatusnotification_message = '[2,"1234","DiagnosticsStatusNotification",{"status": "Uploaded","uploadStatus": {"startTime": "2022-02-22T10:00:00Z","stopTime": "2022-02-22T10:30:00Z","location": "ftp://example.com/diagnostics","retries": 3,"retryInterval": 600}}]'
             firmwarestatusnotification_message = '[2,"1234","FirmwareStatusNotification",{"status": "Downloaded","firmware":{"location": "ftp://example.com/firmware","retrieveDate": "2022-02-22T10:00:00Z","installDate": "2022-02-23T10:00:00Z","signed": true,"signature": "MII...AB","signatureType": "X.509"}}]'
             metervalues_message = '[2,"1234","MeterValues",{"connectorId": 1001,"transactionId": 1234,"meterValue":[{"timestamp": "2022-02-22T10:00:00Z","sampledValue":[{"value": "0.01","context": "Interruption.Begin","unit": "Wh"},{"value": "2.5","context": "Sample.Periodic","unit": "A"}]},{"timestamp": "2022-02-22T10:01:00Z","sampledValue":[{"value": "0.02","context": "Interruption.End","unit": "Wh"},{"value": "3.0","context": "Sample.Periodic","unit": "A"}]}]}]'
-            client_socket.send(boot_message.encode())
-            if boot_message == DISCONNECT_MSG:
+            msg = [boot_message, heartBeat_message, authorize_message, dataTransfer_message, statusNotification_message, diagnosticsstatusnotification_message, firmwarestatusnotification_message, metervalues_message]
+            
+            client_socket.send(msg[count].encode())
+            time.sleep(1)
+            if msg[count] == DISCONNECT_MSG:
                 connected = False
                 break
             else:
@@ -30,7 +33,7 @@ def run_client():
                 # Receive a response from the server
                 response = client_socket.recv(1024)
                 print(f"Received response from server: {response.decode()}")
-                if count==5:
+                if count==7:
                     break
     except:
         print("Error: Steve might be down :(")

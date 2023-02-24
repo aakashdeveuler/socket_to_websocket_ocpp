@@ -443,12 +443,12 @@ class ChargePoint(cp):
     
     async def send_status_notification(self,data,dataID):
         request = call.StatusNotificationPayload(
-            connector_id=data.get("connectorId"), error_code=data.get("errorCode"), status=data.get("status"), timestamp=data.get("timestamp"), info=data.get("info")
+            connector_id=data.get("connectorId"), error_code=data.get("errorCode"), status=data.get("status")
         )
           
         response = await self.call(request, dataID)
-        if response.status == RegistrationStatus.accepted:
-            print("Status Notification send.")
+        # if response.status == RegistrationStatus.accepted:
+        print("Status Notification send.")
 
                     
 ## .....................................................................................................
