@@ -6,7 +6,7 @@ import websockets
 import socket
 import threading
 
-socket.getaddrinfo('13.234.76.186', 6969)
+socket.getaddrinfo('13.234.76.186', 12345)
 
 from ocpp.v16 import ChargePoint as cp
 from ocpp.v16 import call
