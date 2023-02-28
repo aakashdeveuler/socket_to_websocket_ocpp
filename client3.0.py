@@ -6,13 +6,13 @@ DISCONNECT_MSG = "!DISCONNECT"
 def run_client():
     # Create a TCP socket and connect to the server
     client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    client_socket.connect(('localhost', 12345))
+    client_socket.connect(('10.10.11.202', 12345))
     connected = True
     count = 0
     try:
         while connected:
             # Send a message to the server
-            time.sleep(1)
+            time.sleep(2)
             boot_message = '[2, "97495a9r-867k-4d28-769d-10f795ff45", "BootNotification", {"chargePointVendor": "123", "chargePointModel": "Euler", "chargePointSerialNumber": "", "chargeBoxSerialNumber": "", "firmwareVersion": "", "iccid": "", "imsi": "", "meterSerialNumber": "", "meterType": ""}]'
             heartBeat_message = '[2,"1234567890","HeartBeat",{}]'
             authorize_message = '[2,"1234","Authorize", {"idTag": "2001"}]'
@@ -24,7 +24,7 @@ def run_client():
             msg = [boot_message, heartBeat_message, authorize_message, dataTransfer_message, statusNotification_message, diagnosticsstatusnotification_message, firmwarestatusnotification_message, metervalues_message]
             
             client_socket.send(msg[count].encode())
-            time.sleep(1)
+            time.sleep(2)
             if msg[count] == DISCONNECT_MSG:
                 connected = False
                 break

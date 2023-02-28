@@ -6,7 +6,7 @@ import websockets
 import socket
 import threading
 
-socket.getaddrinfo('localhost', 12345)
+socket.getaddrinfo('10.10.11.202', 12345)
 
 from ocpp.v16 import ChargePoint as cp
 from ocpp.v16 import call
@@ -485,20 +485,40 @@ class ChargePoint(cp):
             print("Connected to central system.")
 
         
+## .....................................................................................................
+## .....................................................................................................
+## .....................................................................................................
+        
+        
+        
+# async def main(data, dataID, action):
+#     receive_data=""
+#     async with websockets.connect(
+#         "ws://13.234.76.186:8080/steve/websocket/CentralSystemService/1234", subprotocols=["ocpp1.6"]
+#     ) as ws:
+
+#         cp = ChargePoint("1234", ws)
+#         action2 = action.lower()
+#         action2 = "send_"+action2
+#         val = await asyncio.gather(cp.start(action), cp.action2(data, dataID))
+#         receive_data = val[0]
+#     return receive_data
+        
+        
 
 ## .....................................................................................................
 ## .....................................................................................................
 ## .....................................................................................................
 
-async def main_authorize(data, dataID):
+async def main_authorize(data, dataID, action):
     receive_data=""
     async with websockets.connect(
-        "ws://43.205.177.121:8080/steve/websocket/CentralSystemService/1234", subprotocols=["ocpp1.6"]
+        "ws://13.234.76.186:8080/steve/websocket/CentralSystemService/1234", subprotocols=["ocpp1.6"]
     ) as ws:
 
         cp = ChargePoint("1234", ws)
         
-        val = await asyncio.gather(cp.start_authorize(), cp.send_authorize(data, dataID))
+        val = await asyncio.gather(cp.start(action), cp.send_authorize(data, dataID))
         receive_data = val[0]
     return receive_data
 
@@ -507,15 +527,15 @@ async def main_authorize(data, dataID):
 ## .....................................................................................................
 
 
-async def main_bootnotification(data, dataID):
+async def main_bootnotification(data, dataID, action):
     receive_data=""
     async with websockets.connect(
-        "ws://43.205.177.121:8080/steve/websocket/CentralSystemService/1234", subprotocols=["ocpp1.6"]
+        "ws://13.234.76.186:8080/steve/websocket/CentralSystemService/1234", subprotocols=["ocpp1.6"]
     ) as ws:
 
         cp = ChargePoint("1234", ws)
         
-        val = await asyncio.gather(cp.start_bootnotification(), cp.send_boot_notification(data, dataID))
+        val = await asyncio.gather(cp.start(action), cp.send_boot_notification(data, dataID))
         receive_data = val[0]
     return receive_data
 
@@ -524,15 +544,15 @@ async def main_bootnotification(data, dataID):
 ## .....................................................................................................
 
 
-async def main_heartbeat(dataID):
+async def main_heartbeat(dataID, action):
     receive_data=""
     async with websockets.connect(
-        "ws://43.205.177.121:8080/steve/websocket/CentralSystemService/1234", subprotocols=["ocpp1.6"]
+        "ws://13.234.76.186:8080/steve/websocket/CentralSystemService/1234", subprotocols=["ocpp1.6"]
     ) as ws:
 
         cp = ChargePoint("1234", ws)
         
-        val = await asyncio.gather(cp.start_heartbeat(), cp.send_heartbeat(dataID))
+        val = await asyncio.gather(cp.start(action), cp.send_heartbeat(dataID))
         receive_data = val[0]
     return receive_data
 
@@ -556,15 +576,15 @@ async def main_heartbeat(dataID):
 # ## .....................................................................................................
 # ## .....................................................................................................
 
-async def main_diagnosticsstatusnotification(data, dataID):
+async def main_diagnosticsstatusnotification(data, dataID, action):
     receive_data=""
     async with websockets.connect(
-        "ws://43.205.177.121:8080/steve/websocket/CentralSystemService/1234", subprotocols=["ocpp1.6"]
+        "ws://13.234.76.186:8080/steve/websocket/CentralSystemService/1234", subprotocols=["ocpp1.6"]
     ) as ws:
 
         cp = ChargePoint("1234", ws)
         
-        val = await asyncio.gather(cp.start_diagnosticsstatusnotification(), cp.send_diagnostics_status_notification(data,dataID))
+        val = await asyncio.gather(cp.start(action), cp.send_diagnostics_status_notification(data,dataID))
         receive_data = val[0]
     return receive_data
 
@@ -575,12 +595,13 @@ async def main_diagnosticsstatusnotification(data, dataID):
 async def main_statusnotification(data, dataID):
     receive_data=""
     async with websockets.connect(
-        "ws://43.205.177.121:8080/steve/websocket/CentralSystemService/1234", subprotocols=["ocpp1.6"]
+        "ws://13.234.76.186:8080/steve/websocket/CentralSystemService/1234", subprotocols=["ocpp1.6"]
     ) as ws:
 
         cp = ChargePoint("1234", ws)
         
-        val = await asyncio.gather(cp.start_statusnotification(), cp.send_status_notification(data,dataID))
+        
+        val = await asyncio.gather(cp.start(), cp.send_status_notification(data,dataID))
         receive_data = val[0]
     return receive_data
 
@@ -591,12 +612,12 @@ async def main_statusnotification(data, dataID):
 async def main_metervalues(data, dataID):
     receive_data=""
     async with websockets.connect(
-        "ws://43.205.177.121:8080/steve/websocket/CentralSystemService/1234", subprotocols=["ocpp1.6"]
+        "ws://13.234.76.186:8080/steve/websocket/CentralSystemService/1234", subprotocols=["ocpp1.6"]
     ) as ws:
 
         cp = ChargePoint("1234", ws)
         
-        val = await asyncio.gather(cp.start_metervalues(), cp.send_meter_values(data, dataID))
+        val = await asyncio.gather(cp.start(), cp.send_meter_values(data, dataID))
         receive_data = val[0]
     return receive_data
 
@@ -608,12 +629,12 @@ async def main_metervalues(data, dataID):
 async def main_firmwarestatusnotification(data, dataID):
     receive_data=""
     async with websockets.connect(
-        "ws://43.205.177.121:8080/steve/websocket/CentralSystemService/1234", subprotocols=["ocpp1.6"]
+        "ws://13.234.76.186:8080/steve/websocket/CentralSystemService/1234", subprotocols=["ocpp1.6"]
     ) as ws:
 
         cp = ChargePoint("1234", ws)
         
-        val = await asyncio.gather(cp.start_firmwarestatusnotification(), cp.send_firmware_status_notification(data, dataID))
+        val = await asyncio.gather(cp.start(), cp.send_firmware_status_notification(data, dataID))
         receive_data = val[0]
     return receive_data
 
@@ -625,95 +646,104 @@ async def main_firmwarestatusnotification(data, dataID):
 async def main_datatransfer(data,dataID):
     receive_data=""
     async with websockets.connect(
-        "ws://43.205.177.121:8080/steve/websocket/CentralSystemService/1234", subprotocols=["ocpp1.6"]
+        "ws://13.234.76.186:8080/steve/websocket/CentralSystemService/1234", subprotocols=["ocpp1.6"]
     ) as ws:
 
         cp = ChargePoint("1234", ws)
         
-        val = await asyncio.gather(cp.start_datatransfer(), cp.send_data_transfer(data, dataID))
+        val = await asyncio.gather(cp.start(), cp.send_data_transfer(data, dataID))
         receive_data = val[0]
     return receive_data
 
 
 
-# ## .....................................................................................................
-# ## .....................................................................................................
+## .....................................................................................................
+## .....................................................................................................
 
 
 def handle_client(clientConnected, clientAddress):
         print(f"[NEW CONNECTION] {clientAddress} connected.")
-        # try:
-        connected = True
-        while connected:
-            print("Accepted a connection request from %s:%s"%(clientAddress[0], clientAddress[1]))
-            dataFromClient = clientConnected.recv(1024).decode()
+        try:
+            connected = True
+            while connected:
+                print("Accepted a connection request from %s:%s"%(clientAddress[0], clientAddress[1]))
+                dataFromClient = clientConnected.recv(1024).decode()
+                
+                if dataFromClient == DISCONNECT_MESSAGE:
+                    print(f"Client {clientAddress} disconnected")
+                    connected = False
+                    break
+                    
+                    
+                print("=--------------------")
+                print(dataFromClient)
+                print("=--------------------")
+                
+                list = json.loads(dataFromClient)
+                data=list[3]
+                dataID = list[1]
+                action = list[2]
+                
+                
+                # receivedData = asyncio.run(main(data, dataID, action))
+                # print(receivedData)
+                # clientConnected.send(receivedData.encode())
+                # print("sending to client port: ", clientAddress[1])
+                
+                if action == "BootNotification":
+                    receiveBoot_data = asyncio.run(main_bootnotification(data, dataID, action))
+                    print(receiveBoot_data)
+                    clientConnected.send(receiveBoot_data.encode())
+                    print("sending to client port: ", clientAddress[1])
+                    
+                elif action == "HeartBeat":
+                    receiveHeartbeat_data = asyncio.run(main_heartbeat(dataID, action))
+                    clientConnected.send(receiveHeartbeat_data.encode())
+                    
+                elif action == "DiagnosticsStatusNotification":
+                    receiveDiagnostic_data = asyncio.run(main_diagnosticsstatusnotification(data, dataID, action))
+                    clientConnected.send(receiveDiagnostic_data.encode())
+                    
+                elif action == "Authorize":
+                    receiveDiagnostic_data = asyncio.run(main_authorize(data, dataID, action))
+                    clientConnected.send(receiveDiagnostic_data.encode())
+                    
+                elif action == "FirmwareStatusNotification":
+                    receiveDiagnostic_data = asyncio.run(main_firmwarestatusnotification(data, dataID, action))
+                    clientConnected.send(receiveDiagnostic_data.encode())
+                    
+                elif action == "StatusNotification":
+                    receiveDiagnostic_data = asyncio.run(main_statusnotification(data, dataID, action))
+                    clientConnected.send(receiveDiagnostic_data.encode())
+                    
+                elif action == "DataTransfer":
+                    receiveDiagnostic_data = asyncio.run(main_datatransfer(data, dataID, action))
+                    clientConnected.send(receiveDiagnostic_data.encode())
+                    
+                elif action == "MeterValues":
+                    receiveDiagnostic_data = asyncio.run(main_metervalues(data,dataID, action))
+                    clientConnected.send(receiveDiagnostic_data.encode())
+                
+                
+                
+                
+                # receiveBoot_data = asyncio.run(main_bootnotification(data, dataID))
+                # print(receiveBoot_data)
+                # clientConnected.send(receiveBoot_data.encode())
+                # print("sending to client port: ", clientAddress[1])
+                
+                # time.sleep(8)
+                
+                # receiveHeartbeat_data = asyncio.run(main_heartbeat(dataID))
+                # clientConnected.send(receiveHeartbeat_data.encode())
             
-            if dataFromClient == DISCONNECT_MESSAGE:
-                print(f"Client {clientAddress} disconnected")
-                connected = False
-                break
-                
-                
-            print("=--------------------")
-            print(dataFromClient)
-            print("=--------------------")
             
-            list = json.loads(dataFromClient)
-            data=list[3]
-            dataID = list[1]
-            action = list[2]
+                # receiveDiagnostic_data = asyncio.run(main_diagnostics(data))
+                # clientConnected.send(receiveDiagnostic_data.encode())
             
-            if action == "BootNotification":
-                receiveBoot_data = asyncio.run(main_bootnotification(data, dataID))
-                print(receiveBoot_data)
-                clientConnected.send(receiveBoot_data.encode())
-                print("sending to client port: ", clientAddress[1])
                 
-            elif action == "HeartBeat":
-                receiveHeartbeat_data = asyncio.run(main_heartbeat(dataID))
-                clientConnected.send(receiveHeartbeat_data.encode())
-                
-            elif action == "DiagnosticsStatusNotification":
-                receiveDiagnostic_data = asyncio.run(main_diagnosticsstatusnotification(data,dataID))
-                clientConnected.send(receiveDiagnostic_data.encode())
-                
-            elif action == "Authorize":
-                receiveDiagnostic_data = asyncio.run(main_authorize(data,dataID))
-                clientConnected.send(receiveDiagnostic_data.encode())
-                
-            elif action == "FirmwareStatusNotification":
-                receiveDiagnostic_data = asyncio.run(main_firmwarestatusnotification(data,dataID))
-                clientConnected.send(receiveDiagnostic_data.encode())
-                
-            elif action == "StatusNotification":
-                receiveDiagnostic_data = asyncio.run(main_statusnotification(data,dataID))
-                clientConnected.send(receiveDiagnostic_data.encode())
-                
-            elif action == "DataTransfer":
-                receiveDiagnostic_data = asyncio.run(main_datatransfer(data,dataID))
-                clientConnected.send(receiveDiagnostic_data.encode())
-                
-            elif action == "MeterValues":
-                receiveDiagnostic_data = asyncio.run(main_metervalues(data,dataID))
-                clientConnected.send(receiveDiagnostic_data.encode())
-            
-            # receiveBoot_data = asyncio.run(main_bootnotification(data, dataID))
-            # print(receiveBoot_data)
-            # clientConnected.send(receiveBoot_data.encode())
-            # print("sending to client port: ", clientAddress[1])
-            
-            # time.sleep(8)
-            
-            # receiveHeartbeat_data = asyncio.run(main_heartbeat(dataID))
-            # clientConnected.send(receiveHeartbeat_data.encode())
-        
-        
-            # receiveDiagnostic_data = asyncio.run(main_diagnostics(data))
-            # clientConnected.send(receiveDiagnostic_data.encode())
-                
-                
-        # except:
-        print("Error: Steve might be down :(")
+        except :
+            print("Error: Steve might be down :(")
         print(f"Client {clientAddress} disconnected")            
         clientConnected.close()
                     
@@ -722,7 +752,7 @@ def run_server():
     print("[STARTING] server is starting ....")
     # Create a TCP socket and bind it to a local address and port
     serverSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    serverSocket.bind(("localhost", 12345))
+    serverSocket.bind(("10.10.11.202", 12345))
     # Listen for incoming connections
     serverSocket.listen(5)
     
@@ -738,5 +768,3 @@ def run_server():
 
 if __name__ == "__main__":
     run_server()
-    ## HeartBeat Msg
-    ## [2,"1234567890","HeartBeat",{}] 
