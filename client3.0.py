@@ -21,6 +21,7 @@ def run_client():
             diagnosticsstatusnotification_message = '[2,"1234","DiagnosticsStatusNotification",{"status": "Uploaded","uploadStatus": {"startTime": "2022-02-22T10:00:00Z","stopTime": "2022-02-22T10:30:00Z","location": "ftp://example.com/diagnostics","retries": 3,"retryInterval": 600}}]'
             firmwarestatusnotification_message = '[2,"1234","FirmwareStatusNotification",{"status": "Downloaded","firmware":{"location": "ftp://example.com/firmware","retrieveDate": "2022-02-22T10:00:00Z","installDate": "2022-02-23T10:00:00Z","signed": true,"signature": "MII...AB","signatureType": "X.509"}}]'
             metervalues_message = '[2,"1234","MeterValues",{"connectorId": 1001,"transactionId": 1234,"meterValue":[{"timestamp": "2022-02-22T10:00:00Z","sampledValue":[{"value": "0.01","context": "Interruption.Begin","unit": "Wh"},{"value": "2.5","context": "Sample.Periodic","unit": "A"}]},{"timestamp": "2022-02-22T10:01:00Z","sampledValue":[{"value": "0.02","context": "Interruption.End","unit": "Wh"},{"value": "3.0","context": "Sample.Periodic","unit": "A"}]}]}]'
+           
             msg = [boot_message, heartBeat_message, authorize_message, dataTransfer_message, statusNotification_message, diagnosticsstatusnotification_message, firmwarestatusnotification_message, metervalues_message]
             
             client_socket.send(msg[count].encode())

@@ -219,12 +219,12 @@ class BootNotificationPayload:
 @dataclass
 class DiagnosticsStatusNotificationPayload:
     status: DiagnosticsStatus
-
+    uploadStatus: Optional[Dict] = None
 
 @dataclass
 class FirmwareStatusNotificationPayload:
     status: FirmwareStatus
-
+    firmware: Optional[Dict] = None
 
 @dataclass
 class HeartbeatPayload:
