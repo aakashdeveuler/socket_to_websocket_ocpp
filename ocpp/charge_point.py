@@ -13,7 +13,7 @@ from ocpp.exceptions import NotSupportedError, OCPPError
 from ocpp.messages import Call, MessageType, unpack, validate_payload
 from ocpp.routing import create_route_map
 
-
+import threading
 LOGGER = logging.getLogger("ocpp")
 
 mydb = mysql.connector.connect(
@@ -25,12 +25,14 @@ mydb = mysql.connector.connect(
 def insertIntoDB(action, message, id):
         action = action.lower()
         mycursor = mydb.cursor()
+        print("TCU SE DATA DB ME DAALNE SE JUST PEHLE")
         sql = "INSERT INTO " + action + "tosteve  (id, message) VALUES (%s, %s)"
         # sql = "INSERT INTO bootnotificationtosteve (id, message) VALUES (%s, %s)"
         # print("here -----")
         # print(id, message)
         mycursor.execute(sql, (id, message))
         mydb.commit()
+        print("TCU SE DATA DB ME DAALNE KE BAAD")
         
         time.sleep(3)
         
@@ -143,32 +145,36 @@ class ChargePoint:
         self._unique_id_generator = uuid.uuid4
 
 
-
+    lock = threading.Lock()
     async def start(self, action):
-        while True:
-            message = await self._connection.recv()
-            LOGGER.info("%s: receive message %s", self.id, message)
-            listMsg = json.loads(message)
-            action = action.lower()
-            print(action +" "+message)
-            # .......................................................
-            mycursor = mydb.cursor()
-            sql = "INSERT INTO " + action +"totcu (id, message) VALUES (%s, %s)"
-            mycursor.execute(sql, (listMsg[1], message))
-            
-            time.sleep(3)
-            # .......................................................
-            
-            mycursor.execute("SELECT * FROM "+action +"totcu")
-            rows = mycursor.fetchall()
-            print("Data sending to client")
-            sendtcu = str(rows[-1][1])
-            mydb.commit()
-            time.sleep(2)
-            #.........................................................
-            
-            await self.route_message(message) 
-            return sendtcu
+        # self.lock.acquire()
+        message = await self._connection.recv()
+        LOGGER.info("%s: receive message %s", self.id, message)
+        listMsg = json.loads(message)
+        action = action.lower()
+        # print(action +" "+message)
+        # # .......................................................
+        # mycursor = mydb.cursor()
+        # print("STEVE SE DATA DB ME DAALNE SE JUST PEHLE")
+        # sql = "INSERT INTO " + action +"totcu (id, message) VALUES (%s, %s)"
+        # mycursor.execute(sql, (listMsg[1], message))
+        
+        # # time.sleep(3)
+        # # .......................................................
+        
+        # mycursor.execute("SELECT * FROM "+action +"totcu")
+        # rows = mycursor.fetchall()
+        # print("Data sending to client")
+        # sendtcu = str(rows[-1][1])
+        # mydb.commit()
+        # print("STEVE SE DATA DB ME DAALNE KE BAAD")
+        # self.lock.release()
+        # time.sleep(2)
+        #.........................................................
+        
+        await self.route_message(message) 
+        # self.lock.release()
+        return message
 
 
 
@@ -622,7 +628,7 @@ class ChargePoint:
         action = sendmsg[2]
         id = sendmsg[1]
         
-        insertIntoDB(action, message, id)
+        # insertIntoDB(action, message, id)
         
         
         # if action == "BootNotification":

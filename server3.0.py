@@ -646,7 +646,7 @@ async def main_firmwarestatusnotification(data, dataID, action):
 async def main_datatransfer(data,dataID, action):
     receive_data=""
     async with websockets.connect(
-        "ws://13.234.76.186:8080/steve/websocket/CentralSystemService/1234", subprotocols=["ocpp1.6"]
+        "ws://13.234.76.186:8080/steve/websocket/CentralSystemService/"+dataID, subprotocols=["ocpp1.6"]
     ) as ws:
 
         cp = ChargePoint("1234", ws)
@@ -663,73 +663,73 @@ async def main_datatransfer(data,dataID, action):
 
 def handle_client(clientConnected, clientAddress):
         print(f"[NEW CONNECTION] {clientAddress} connected.")
-        try:
-            connected = True
-            while connected:
-                print("Accepted a connection request from %s:%s"%(clientAddress[0], clientAddress[1]))
-                dataFromClient = clientConnected.recv(1024).decode()
-                
-                if dataFromClient == DISCONNECT_MESSAGE:
-                    print(f"Client {clientAddress} disconnected")
-                    connected = False
-                    break
-                    
-                    
-                print("=--------------------")
-                # print(dataFromClient)
-                print("=--------------------")
-                
-                list = json.loads(dataFromClient)
-                data=list[3]
-                dataID = list[1]
-                action = list[2]
+        # try:
+        connected = True
+        while connected:
+            print("Accepted a connection request from %s:%s"%(clientAddress[0], clientAddress[1]))
+            dataFromClient = clientConnected.recv(1024).decode()
+            
+            if dataFromClient == DISCONNECT_MESSAGE:
+                print(f"Client {clientAddress} disconnected")
+                connected = False
+                break
                 
                 
-                # receivedData = asyncio.run(main(data, dataID, action))
-                # print(receivedData)
-                # clientConnected.send(receivedData.encode())
-                # print("sending to client port: ", clientAddress[1])
+            print("=--------------------")
+            # print(dataFromClient)
+            print("=--------------------")
+            
+            list = json.loads(dataFromClient)
+            data=list[3]
+            dataID = list[1]
+            action = list[2]
+            
+            
+            # receivedData = asyncio.run(main(data, dataID, action))
+            # print(receivedData)
+            # clientConnected.send(receivedData.encode())
+            # print("sending to client port: ", clientAddress[1])
+            
+            if action == "BootNotification":
+                receiveBoot_data = asyncio.run(main_bootnotification(data, dataID, action))
+                print(receiveBoot_data)
+                clientConnected.send(receiveBoot_data.encode())
+                print("sending to client port: ", clientAddress[1])
                 
-                if action == "BootNotification":
-                    receiveBoot_data = asyncio.run(main_bootnotification(data, dataID, action))
-                    print(receiveBoot_data)
-                    clientConnected.send(receiveBoot_data.encode())
-                    print("sending to client port: ", clientAddress[1])
-                    
-                elif action == "HeartBeat":
-                    receiveHeartbeat_data = asyncio.run(main_heartbeat(dataID, action))
-                    clientConnected.send(receiveHeartbeat_data.encode())
-                    
-                elif action == "DiagnosticsStatusNotification":
-                    receiveDiagnostic_data = asyncio.run(main_diagnosticsstatusnotification(data, dataID, action))
-                    clientConnected.send(receiveDiagnostic_data.encode())
-                    
-                elif action == "Authorize":
-                    receiveAuthorize_data = asyncio.run(main_authorize(data, dataID, action))
-                    clientConnected.send(receiveAuthorize_data.encode())
-                    
-                elif action == "FirmwareStatusNotification":
-                    receiveFirmware_data = asyncio.run(main_firmwarestatusnotification(data, dataID, action))
-                    clientConnected.send(receiveFirmware_data.encode())
-                    
-                elif action == "StatusNotification":
-                    receiveStatus_data = asyncio.run(main_statusnotification(data, dataID, action))
-                    clientConnected.send(receiveStatus_data.encode())
-                    
-                elif action == "DataTransfer":
-                    receiveDiagnostic_data = asyncio.run(main_datatransfer(data, dataID, action))
-                    clientConnected.send(receiveDiagnostic_data.encode())
-                    
-                elif action == "MeterValues":
-                    receiveMeter_data = asyncio.run(main_metervalues(data,dataID, action))
-                    clientConnected.send(receiveMeter_data.encode())
+            elif action == "HeartBeat":
+                receiveHeartbeat_data = asyncio.run(main_heartbeat(dataID, action))
+                clientConnected.send(receiveHeartbeat_data.encode())
                 
+            elif action == "DiagnosticsStatusNotification":
+                receiveDiagnostic_data = asyncio.run(main_diagnosticsstatusnotification(data, dataID, action))
+                clientConnected.send(receiveDiagnostic_data.encode())
                 
-                # time.sleep(7)
+            elif action == "Authorize":
+                receiveAuthorize_data = asyncio.run(main_authorize(data, dataID, action))
+                clientConnected.send(receiveAuthorize_data.encode())
+                
+            elif action == "FirmwareStatusNotification":
+                receiveFirmware_data = asyncio.run(main_firmwarestatusnotification(data, dataID, action))
+                clientConnected.send(receiveFirmware_data.encode())
+                
+            elif action == "StatusNotification":
+                receiveStatus_data = asyncio.run(main_statusnotification(data, dataID, action))
+                clientConnected.send(receiveStatus_data.encode())
+                
+            elif action == "DataTransfer":
+                receiveDiagnostic_data = asyncio.run(main_datatransfer(data, dataID, action))
+                clientConnected.send(receiveDiagnostic_data.encode())
+                
+            elif action == "MeterValues":
+                receiveMeter_data = asyncio.run(main_metervalues(data,dataID, action))
+                clientConnected.send(receiveMeter_data.encode())
+            
+            
+            # time.sleep(7)
             
                 
-        except :
-            print("Error: Steve might be down :(")
+        # except :
+        print("Error: Steve might be down :(")
         print(f"Client {clientAddress} disconnected")            
         clientConnected.close()
                     
