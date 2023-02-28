@@ -24,6 +24,8 @@ from ocpp.v16.enums import (
     UnlockStatus,
     UpdateFirmwareStatus,
     UpdateStatus,
+    DiagnosticsStatus,
+    FirmwareStatus
 )
 
 # Most types of CALLRESULT messages can originate from only 1 source, either
@@ -58,12 +60,13 @@ class BootNotificationPayload:
 
 @dataclass
 class DiagnosticsStatusNotificationPayload:
-    pass
+    status:DiagnosticsStatus
 
 
 @dataclass
 class FirmwareStatusNotificationPayload:
-    pass
+    status:FirmwareStatus
+
 
 
 @dataclass

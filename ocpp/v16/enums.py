@@ -412,7 +412,10 @@ class DiagnosticsStatus(str, Enum):
     """
     Status in DiagnosticsStatusNotification.req.
     """
+    accepted = "Accepted"
+    rejected = "Rejected"
 
+    #needtto be checked if steve resposnses the below fields
     idle = "Idle"
     uploaded = "Uploaded"
     upload_failed = "UploadFailed"
@@ -429,6 +432,8 @@ class FirmwareStatus(str, Enum):
 
     # Common for:
     # FirmwareStatusNotification.req and SignedFirmwareStatusNotification.req
+    accepted = "Accepted"
+    rejected = "Rejected"
     downloaded = "Downloaded"
     download_failed = "DownloadFailed"
     downloading = "Downloading"

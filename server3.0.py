@@ -510,7 +510,7 @@ async def main_authorize(data, dataID):
 async def main_bootnotification(data, dataID):
     receive_data=""
     async with websockets.connect(
-        "ws://43.205.177.121:8080/steve/websocket/CentralSystemService/1234", subprotocols=["ocpp1.6"]
+        "ws://13.234.76.186:8080/steve/websocket/CentralSystemService/1234", subprotocols=["ocpp1.6"]
     ) as ws:
 
         cp = ChargePoint("1234", ws)
