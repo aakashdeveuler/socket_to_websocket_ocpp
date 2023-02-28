@@ -12,7 +12,7 @@ def run_client():
     try:
         while connected:
             # Send a message to the server
-            time.sleep(2)
+            # time.sleep(2)
             boot_message = '[2, "97495a9r-867k-4d28-769d-10f795ff45", "BootNotification", {"chargePointVendor": "123", "chargePointModel": "Euler", "chargePointSerialNumber": "", "chargeBoxSerialNumber": "", "firmwareVersion": "", "iccid": "", "imsi": "", "meterSerialNumber": "", "meterType": ""}]'
             heartBeat_message = '[2,"1234567890","HeartBeat",{}]'
             authorize_message = '[2,"1234","Authorize", {"idTag": "2001"}]'
@@ -34,10 +34,10 @@ def run_client():
                 # Receive a response from the server
                 response = client_socket.recv(1024)
                 print(f"Received response from server: {response.decode()}")
-                if count==7:
+                if count==9:
                     break
     except:
-        print("Error: Steve might be down :(")
+        print("All test messages passed OR Error: Steve might be down :(")
                 
     # Close the client socket
     client_socket.close()

@@ -220,6 +220,7 @@ class BootNotificationPayload:
 class DiagnosticsStatusNotificationPayload:
     status: DiagnosticsStatus
     uploadStatus: Optional[Dict] = None
+    # pass
 
 @dataclass
 class FirmwareStatusNotificationPayload:
@@ -242,6 +243,7 @@ class MeterValuesPayload:
     connector_id: int
     meter_value: List = field(default_factory=list)
     transaction_id: Optional[int] = None
+
 
 
 @dataclass

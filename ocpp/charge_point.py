@@ -19,7 +19,7 @@ LOGGER = logging.getLogger("ocpp")
 mydb = mysql.connector.connect(
   host="localhost",
   user="root",
-  password="password",
+  password="root",
   database="socketsteve"
 )
 def insertIntoDB(action, message, id):
@@ -27,11 +27,12 @@ def insertIntoDB(action, message, id):
         mycursor = mydb.cursor()
         sql = "INSERT INTO " + action + "tosteve  (id, message) VALUES (%s, %s)"
         # sql = "INSERT INTO bootnotificationtosteve (id, message) VALUES (%s, %s)"
-        print("here -----")
-        print(id, message)
+        # print("here -----")
+        # print(id, message)
         mycursor.execute(sql, (id, message))
         mydb.commit()
         
+        time.sleep(3)
         
 def camel_to_snake_case(data):
     """
@@ -151,11 +152,11 @@ class ChargePoint:
             action = action.lower()
             print(action +" "+message)
             # .......................................................
-            
             mycursor = mydb.cursor()
             sql = "INSERT INTO " + action +"totcu (id, message) VALUES (%s, %s)"
             mycursor.execute(sql, (listMsg[1], message))
             
+            time.sleep(3)
             # .......................................................
             
             mycursor.execute("SELECT * FROM "+action +"totcu")
@@ -163,7 +164,7 @@ class ChargePoint:
             print("Data sending to client")
             sendtcu = str(rows[-1][1])
             mydb.commit()
-            
+            time.sleep(2)
             #.........................................................
             
             await self.route_message(message) 

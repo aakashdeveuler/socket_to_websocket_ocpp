@@ -60,13 +60,14 @@ class BootNotificationPayload:
 
 @dataclass
 class DiagnosticsStatusNotificationPayload:
-    status:DiagnosticsStatus
+    # status:DiagnosticsStatus
+   pass 
 
 
 @dataclass
 class FirmwareStatusNotificationPayload:
-    status:FirmwareStatus
-
+    # status:FirmwareStatus
+    pass
 
 
 @dataclass
