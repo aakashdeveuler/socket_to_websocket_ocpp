@@ -6,7 +6,7 @@ import websockets
 import socket
 import threading
 
-socket.getaddrinfo('10.10.11.202', 12345)
+socket.getaddrinfo('13.234.76.186', 12345)
 
 from ocpp.v16 import ChargePoint as cp
 from ocpp.v16 import call
@@ -157,7 +157,7 @@ def run_server():
     print("[STARTING] server is starting ....")
     # Create a TCP socket and bind it to a local address and port
     serverSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    serverSocket.bind(("10.10.11.202", 12345))
+    serverSocket.bind(("13.234.76.186", 12345))
     # Listen for incoming connections
     serverSocket.listen(50)
     
