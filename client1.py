@@ -6,7 +6,7 @@ DISCONNECT_MSG = "!DISCONNECT"
 def run_client():
     # Create a TCP socket and connect to the server
     client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    client_socket.connect(('10.10.11.202', 12345))
+    client_socket.connect(('13.234.76.186', 12345))
     connected = True
     count = 0
     try:
