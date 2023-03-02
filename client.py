@@ -1,3 +1,4 @@
+import json
 import socket
 import time
 import threading
@@ -5,24 +6,24 @@ import threading
 
 DISCONNECT_MSG = "!DISCONNECT"
 
-class rc:
-
-    def run_client(self, imei):
-        lock = threading.Lock()
-        # Create a TCP socket and connect to the server
-        print("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx")
-        # lock.acquire()
-        client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        client_socket.connect(('13.234.76.186', 12345))
-        connected = True
-        count = 0
-        # imei = "8643940408337"
-        try:
+def run_client():
+    # Create a TCP socket and connect to the server
+    print("ENTERED run_client")
+    client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    client_socket.connect(('13.234.76.186', 12345))
+    connected = True
+    count = 0
+    try:
+        for i in range(1, 21):
             while connected:
-                lock.acquire()
+                imei = "8643940408337"
                 # Send a message to the server
                 time.sleep(2)
-                boot_message = '[2, "878967656546", "BootNotification", {"chargePointVendor": "123", "chargePointModel": "Euler", "chargePointSerialNumber": "", "chargeBoxSerialNumber": "", "firmwareVersion": "", "iccid": "", "imsi": "", "meterSerialNumber": "", "meterType": ""}]'
+                imei += str(i)
+                print(imei)
+                print("entered try block")
+                boot_message = f'[2, {imei}, "BootNotification", {{"chargePointVendor": "123", "chargePointModel": "Euler", "chargePointSerialNumber": "", "chargeBoxSerialNumber": "", "firmwareVersion": "", "iccid": "", "imsi": "", "meterSerialNumber": "", "meterType": ""}}]'
+                print(boot_message)
                 # heartBeat_message = f'[2, {imei},"HeartBeat",{None}]'
                 # authorize_message = f'[2, {imei},"Authorize", {"idTag": "2001"}]'
                 # dataTransfer_message = f'[2, {imei},"DataTransfer",{"vendorId": "Acme","messageId": "LogData","data": "Rmlyc3ROYW1lOjogRG9l"}]'
@@ -33,22 +34,25 @@ class rc:
             
                 # msg = [boot_message, heartBeat_message, authorize_message, dataTransfer_message, statusNotification_message, diagnosticsstatusnotification_message, firmwarestatusnotification_message, metervalues_message]
                 # msg = [boot_message, heartBeat_message, authorize_message, dataTransfer_message, statusNotification_message, diagnosticsstatusnotification_message, firmwarestatusnotification_message]
-                msg = [boot_message]
+                # msg = [boot_message]
                 
-                client_socket.send(msg[count].encode())
+                client_socket.send(boot_message.encode())
                 time.sleep(2)
-                if msg[count] == DISCONNECT_MSG:
+                if boot_message == DISCONNECT_MSG:
                     connected = False
                     break
                 else:
+                    print("entered else block")
                     count = count+1
                     # Receive a response from the server
                     response = client_socket.recv(1024)
                     print(f"Received response from server: {response.decode()}")
-                    if count==2:
+                    if count==1:
                         break
-        except:
-          print("All test messages passed OR Error: Steve might be down :(")
-        lock.release()            
-        # Close the client socket
-        client_socket.close()
+    except:
+        print("All test messages passed OR Error: Steve might be down :(")    
+    # Close the client socket
+    client_socket.close()
+
+if __name__ == "__main__":
+    run_client()

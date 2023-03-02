@@ -127,20 +127,21 @@ def handle_client(clientConnected, clientAddress):
                 print(f"Client {clientAddress} disconnected")
                 connected = False
                 break
+            elif(dataFromClient=="866907053293733"):
+                check = "01"
+                clientConnected.send(check.encode())
+            else:
+                print("=--------------------")
+                print(dataFromClient)
+                print("=--------------------")
                 
+                list = json.loads(dataFromClient)
+                data=list[3]
+                dataID = list[1]
+                action = list[2]
                 
-            print("=--------------------")
-            print(dataFromClient)
-            print("=--------------------")
-            
-            list = json.loads(dataFromClient)
-            data=list[3]
-            dataID = list[1]
-            action = list[2]
-            
-            
-            receivedData = asyncio.run(main(data, dataID, action))
-            clientConnected.send(receivedData.encode())
+                receivedData = asyncio.run(main(data, dataID, action))
+                clientConnected.send(receivedData.encode())
             
             
             
