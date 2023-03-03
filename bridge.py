@@ -135,10 +135,13 @@ def handle_client(clientConnected, clientAddress):
                     check = "01"
                     print("imei received .... ")
                     clientConnected.send(check.encode())
+                    print("Check sent ")
                     # time.sleep(2)
                     latlang = binascii.hexify(clientConnected.recv(1024))   
+                    print("Received latlong ")
                     print(latlang)    
                     clientConnected.send('00000002'.encode())
+                    print("check 2 sent ")
         
                 else:
                     print("=--------------------")
