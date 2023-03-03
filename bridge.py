@@ -133,6 +133,7 @@ def handle_client(clientConnected, clientAddress):
                     break
                 elif(dataFromClient[2:] == "866907053293733"):
                     check = "01"
+                    print("imei received .... ")
                     clientConnected.send(check.encode())
                     # time.sleep(2)
                     latlang = binascii.hexify(clientConnected.recv(1024))   
