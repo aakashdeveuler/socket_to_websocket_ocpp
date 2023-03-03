@@ -157,7 +157,8 @@ def handle_client(clientConnected, clientAddress):
                     clientConnected.send(receivedData.encode())
             
             
-        except :
+        except KeyboardInterrupt:
+            quit()
             print("Error: Steve might be down :(")
         print(f"Client {clientAddress} disconnected")            
         clientConnected.close()
