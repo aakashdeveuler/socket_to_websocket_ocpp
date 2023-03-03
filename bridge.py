@@ -123,6 +123,8 @@ def handle_client(clientConnected, clientAddress):
             while connected:
                 print("Accepted a connection request from %s:%s"%(clientAddress[0], clientAddress[1]))
                 dataFromClient = clientConnected.recv(1024).decode()
+                print("data from client :",dataFromClient)
+
                 
                 if dataFromClient == DISCONNECT_MESSAGE:
                     print(f"Client {clientAddress} disconnected")
@@ -131,8 +133,9 @@ def handle_client(clientConnected, clientAddress):
                 elif(dataFromClient[2:17]=="866907053293733"):
                     check = "01"
                     clientConnected.send(check.encode())
-                    time.sleep(2)
-                    dataFromClient = binascii.hexify(clientConnected.recv(1024))       
+                    # time.sleep(2)
+                    latlang = binascii.hexify(clientConnected.recv(1024))   
+                    print(latlang)    
                     clientConnected.send('00000002'.encode())
         
                 else:
