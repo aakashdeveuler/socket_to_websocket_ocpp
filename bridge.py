@@ -137,7 +137,7 @@ def handle_client(clientConnected, clientAddress):
                     clientConnected.send(check.encode())
                     print("Check sent ")
                     # time.sleep(2)
-                    latlang = binascii.hexify(clientConnected.recv(1024))   
+                    latlang = clientConnected.recv(1024)
                     print("Received latlong ")
                     print(latlang)    
                     clientConnected.send('00000002'.encode())
