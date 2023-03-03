@@ -124,7 +124,6 @@ def handle_client(clientConnected, clientAddress):
                 print("Accepted a connection request from %s:%s"%(clientAddress[0], clientAddress[1]))
                 dataFromClient = clientConnected.recv(1024).decode()
                 print("data from client :",dataFromClient, end="tt/")
-
                 print("Len of client ", len(dataFromClient))
 
                 
@@ -132,7 +131,7 @@ def handle_client(clientConnected, clientAddress):
                     print(f"Client {clientAddress} disconnected")
                     connected = False
                     break
-                elif(dataFromClient == "866907053293733"):
+                elif(dataFromClient[2:] == "866907053293733"):
                     check = "01"
                     clientConnected.send(check.encode())
                     # time.sleep(2)
