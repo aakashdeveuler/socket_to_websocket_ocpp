@@ -1,4 +1,5 @@
 import asyncio
+import binascii
 import logging
 import json
 import time
@@ -117,37 +118,39 @@ async def main(data, dataID, action):
 
 def handle_client(clientConnected, clientAddress):
         print(f"[NEW CONNECTION] {clientAddress} connected.")
-        # try:
-        connected = True
-        while connected:
-            print("Accepted a connection request from %s:%s"%(clientAddress[0], clientAddress[1]))
-            dataFromClient = clientConnected.recv(1024).decode()
-            
-            if dataFromClient == DISCONNECT_MESSAGE:
-                print(f"Client {clientAddress} disconnected")
-                connected = False
-                break
-            elif(dataFromClient=="866907053293733"):
-                check = "01"
-                clientConnected.send(check.encode())
-            else:
-                print("=--------------------")
-                print(dataFromClient)
-                print("=--------------------")
+        try:
+            connected = True
+            while connected:
+                print("Accepted a connection request from %s:%s"%(clientAddress[0], clientAddress[1]))
+                dataFromClient = clientConnected.recv(1024).decode()
                 
-                list = json.loads(dataFromClient)
-                data=list[3]
-                dataID = list[1]
-                action = list[2]
-                
-                receivedData = asyncio.run(main(data, dataID, action))
-                clientConnected.send(receivedData.encode())
+                if dataFromClient == DISCONNECT_MESSAGE:
+                    print(f"Client {clientAddress} disconnected")
+                    connected = False
+                    break
+                elif(dataFromClient[2:17]=="866907053293733"):
+                    check = "01"
+                    clientConnected.send(check.encode())
+                    time.sleep(2)
+                    dataFromClient = binascii.hexify(clientConnected.recv(1024))       
+                    clientConnected.send('00000002'.encode())
+        
+                else:
+                    print("=--------------------")
+                    print(dataFromClient)
+                    print("=--------------------")
+                    
+                    list = json.loads(dataFromClient)
+                    data=list[3]
+                    dataID = list[1]
+                    action = list[2]
+                    
+                    receivedData = asyncio.run(main(data, dataID, action))
+                    clientConnected.send(receivedData.encode())
             
             
-            
-                
-        # except :
-        print("Error: Steve might be down :(")
+        except :
+            print("Error: Steve might be down :(")
         print(f"Client {clientAddress} disconnected")            
         clientConnected.close()
                     

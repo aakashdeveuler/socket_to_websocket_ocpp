@@ -1,15 +1,22 @@
-from client import rc
 import threading
-
-def create_sub(imei):
-    rc1 = rc()
-    rc1.run_client(imei)
+import time
+from client import run_client
 
 
 def createThread(imei):
-    for i in range(1, 11):
-        imei += str(i)
-        thread = threading.Thread(target=create_sub, args=(imei, ))
+    i=1
+    x=1
+    while True:
+        thread = threading.Thread(target=run_client, args=(imei + str(i), ))
+        time.sleep(1)
         thread.start()
+        # print("above -=-=-=-=-=-=-==--=-")
+        print(x)
+        i+=1
+        x+=1
+        if i == 20:
+            # print("inside    >>>>>>>")
+            i = 1
+            # print(i)
 
 createThread("8643940408337")
