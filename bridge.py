@@ -140,7 +140,8 @@ def handle_client(clientConnected, clientAddress):
             connected = True
             print("Accepted a connection request from %s:%s"%(clientAddress[0], clientAddress[1]))
             while connected:
-                dataFromClient = binascii.hexlify(clientConnected.recv(1024))
+                # dataFromClient = binascii.hexlify(clientConnected.recv(1024))
+                dataFromClient = clientConnected.recv(1024)
                 print("data from client :",dataFromClient)
                 print("Len of client ", len(dataFromClient))
 
