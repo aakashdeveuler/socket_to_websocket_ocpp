@@ -149,7 +149,7 @@ def handle_client(clientConnected, clientAddress):
                     print(f"Client {clientAddress} disconnected")
                     connected = False
                     break
-                elif(dataFromClient[2:18] == "866907053293733"):
+                elif(dataFromClient[:4] == "000f"):
                     imeiCheck = "01"
                     print("imei received .... ")
                     clientConnected.send(imeiCheck.encode())
@@ -162,7 +162,7 @@ def handle_client(clientConnected, clientAddress):
                     # clientConnected.send('00000002'.encode())
                     # print("check 2 sent ")
                 
-                elif(dataFromClient[:8]) == "00000000":
+                elif(dataFromClient[:4]) == "00000000":
                     stateCheck = "00000002"
                     clientConnected.send(stateCheck.encode())
                     print("state response sent")
