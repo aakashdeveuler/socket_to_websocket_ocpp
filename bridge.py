@@ -140,27 +140,32 @@ def handle_client(clientConnected, clientAddress):
             connected = True
             print("Accepted a connection request from %s:%s"%(clientAddress[0], clientAddress[1]))
             while connected:
-                dataFromClient = clientConnected.recv(1024).decode()
+                dataFromClient = binascii.hexlify(clientConnected.recv(1024))
                 print("data from client :",dataFromClient)
                 print("Len of client ", len(dataFromClient))
 
-                
                 if dataFromClient == DISCONNECT_MESSAGE:
                     print(f"Client {clientAddress} disconnected")
                     connected = False
                     break
-                elif(dataFromClient[2:] == "866907053293733"):
-                    check = "01"
+                elif(dataFromClient[:3] == "17"):
+                    imeiCheck = "01"
                     print("imei received .... ")
-                    clientConnected.send(check.encode())
+                    clientConnected.send(imeiCheck.encode())
                     print("Check sent ")
                     # time.sleep(2)
-                    latlang = binascii.hexlify(clientConnected.recv(1024))
-                    print("Received latlong ")
-                    print(latlang)    
-                    print("Len of client ", len(latlang))
-                    clientConnected.send('00000002'.encode())
-                    print("check 2 sent ")
+                    # latlang = binascii.hexlify(clientConnected.recv(1024))
+                    # print("Received latlong ")
+                    # print(latlang)    
+                    # print("Len of client ", len(latlang))
+                    # clientConnected.send('00000002'.encode())
+                    # print("check 2 sent ")
+                
+                elif(dataFromClient[:8]) == "00000000":
+                    stateCheck = "00000002"
+                    clientConnected.send(stateCheck.encode())
+                    print("state response sent")
+            
         
                 else:
                     print("=--------------------")
@@ -174,6 +179,37 @@ def handle_client(clientConnected, clientAddress):
                     
                     receivedData = asyncio.run(main(data, dataID, action))
                     clientConnected.send(receivedData.encode())
+
+                
+                # if dataFromClient == DISCONNECT_MESSAGE:
+                #     print(f"Client {clientAddress} disconnected")
+                #     connected = False
+                #     break
+                # elif(dataFromClient[2:] == "866907053293733"):
+                #     check = "01"
+                #     print("imei received .... ")
+                #     clientConnected.send(check.encode())
+                #     print("Check sent ")
+                #     # time.sleep(2)
+                #     latlang = binascii.hexlify(clientConnected.recv(1024))
+                #     print("Received latlong ")
+                #     print(latlang)    
+                #     print("Len of client ", len(latlang))
+                #     clientConnected.send('00000002'.encode())
+                #     print("check 2 sent ")
+        
+                # else:
+                #     print("=--------------------")
+                #     print(dataFromClient)
+                #     print("=--------------------")
+                    
+                #     list = json.loads(dataFromClient)
+                #     data=list[3]
+                #     dataID = list[1]
+                #     action = list[2]
+                    
+                #     receivedData = asyncio.run(main(data, dataID, action))
+                #     clientConnected.send(receivedData.encode())
             
             
         except KeyboardInterrupt:
