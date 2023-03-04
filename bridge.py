@@ -170,6 +170,7 @@ def handle_client(clientConnected, clientAddress):
                 else:
                     print("=--------------------")
                     print(dataFromClient)
+                    print(dataFromClient[:8])
                     print("=--------------------")
                     
                     list = json.loads(dataFromClient)
