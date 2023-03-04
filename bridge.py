@@ -140,8 +140,8 @@ def handle_client(clientConnected, clientAddress):
             connected = True
             print("Accepted a connection request from %s:%s"%(clientAddress[0], clientAddress[1]))
             while connected:
-                # dataFromClient = binascii.hexlify(clientConnected.recv(1024))
-                dataFromClient = clientConnected.recv(1024)
+                dataFromClient = binascii.hexlify(clientConnected.recv(1024))
+                # dataFromClient = clientConnected.recv(1024)
                 print("data from client :",dataFromClient)
                 print("Len of client ", len(dataFromClient))
 
@@ -149,7 +149,7 @@ def handle_client(clientConnected, clientAddress):
                     print(f"Client {clientAddress} disconnected")
                     connected = False
                     break
-                elif(dataFromClient[:4] == "000f"):
+                elif(dataFromClient[2:18] == "866907053293733"):
                     imeiCheck = "01"
                     print("imei received .... ")
                     clientConnected.send(imeiCheck.encode())
