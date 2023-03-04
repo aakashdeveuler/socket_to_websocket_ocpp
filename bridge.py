@@ -148,7 +148,7 @@ def handle_client(clientConnected, clientAddress):
                     print(f"Client {clientAddress} disconnected")
                     connected = False
                     break
-                elif(dataFromClient[:3] == "17"):
+                elif(dataFromClient[:4] == "000f"):
                     imeiCheck = "01"
                     print("imei received .... ")
                     clientConnected.send(imeiCheck.encode())
