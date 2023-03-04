@@ -21,8 +21,10 @@ def run_client():
             diagnosticsstatusnotification_message = '[2,"864394040833704","DiagnosticsStatusNotification",{"status": "Uploaded","uploadStatus": {"startTime": "2022-02-22T10:00:00Z","stopTime": "2022-02-22T10:30:00Z","location": "ftp://example.com/diagnostics","retries": 3,"retryInterval": 600}}]'
             firmwarestatusnotification_message = '[2,"864394040833704","FirmwareStatusNotification",{"status": "Downloaded","firmware":{"location": "ftp://example.com/firmware","retrieveDate": "2022-02-22T10:00:00Z","installDate": "2022-02-23T10:00:00Z","signed": true,"signature": "MII...AB","signatureType": "X.509"}}]'
             metervalues_message = '[2,"864394040833704","MeterValues",{"connectorId": 1001,"transactionId": 1234,"meterValue":[{"timestamp": "2022-02-22T10:00:00Z","sampledValue":[{"value": "0.01","context": "Interruption.Begin","unit": "Wh"},{"value": "2.5","context": "Sample.Periodic","unit": "A"}]},{"timestamp": "2022-02-22T10:01:00Z","sampledValue":[{"value": "0.02","context": "Interruption.End","unit": "Wh"},{"value": "3.0","context": "Sample.Periodic","unit": "A"}]}]}]'
+            starttransaction_message = '[2,"864394040833704","StartTransaction",{"connectorId":1,"idTag":"516962","meterStart":2650,"reservationId":0,"timestamp":"2018-01-03T17:59:37Z"}]'
+            stoptransaction_message = '[2,"864394040833704","StopTransaction",{"idTag":"3F420F","meterStop":5060,"timestamp":"2018-02-09T13:21:30Z","transactionId":554381508}]'
            
-            msg = [boot_message, heartBeat_message, authorize_message, dataTransfer_message, statusNotification_message, diagnosticsstatusnotification_message, firmwarestatusnotification_message, metervalues_message]
+            msg = [boot_message, heartBeat_message, authorize_message, dataTransfer_message, statusNotification_message, diagnosticsstatusnotification_message, firmwarestatusnotification_message, metervalues_message, starttransaction_message, stoptransaction_message]
             
             client_socket.send(msg[count].encode())
             time.sleep(2)
@@ -34,7 +36,7 @@ def run_client():
                 # Receive a response from the server
                 response = client_socket.recv(1024)
                 print(f"Received response from server: {response.decode()}")
-                if count==9:
+                if count==11:
                     break
     except:
         print("All test messages passed OR Error: Steve might be down :(")

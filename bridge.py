@@ -94,6 +94,23 @@ class ChargePoint(cp):
             response = await self.call(request, dataID)
             print(response)
             
+        elif action == "starttransaction":
+            request = call.StartTransactionPayload(
+                connector_id=data.get("connectorId"), id_tag=data.get("idTag"), meter_start=data.get("meterStart"), reservation_id=data.get("reservationId"), timestamp=data.get("timestamp")
+            )
+            
+            response = await self.call(request, dataID)
+            print("Transaction Started")
+            
+        elif action == "stoptransaction":
+            request = call.StopTransactionPayload(
+                id_tag=data.get("idTag"), meter_stop=data.get("meterStop"), transaction_id=data.get("transactionId"), timestamp=data.get("timestamp")
+            )
+            
+            response = await self.call(request, dataID)
+            print("Transaction Stopped")    
+        
+            
 ## .....................................................................................................
 
         
@@ -120,8 +137,8 @@ def handle_client(clientConnected, clientAddress):
         print(f"[NEW CONNECTION] {clientAddress} connected.")
         try:
             connected = True
+            print("Accepted a connection request from %s:%s"%(clientAddress[0], clientAddress[1]))
             while connected:
-                print("Accepted a connection request from %s:%s"%(clientAddress[0], clientAddress[1]))
                 dataFromClient = clientConnected.recv(1024).decode()
                 
                 if dataFromClient == DISCONNECT_MESSAGE:
@@ -149,7 +166,8 @@ def handle_client(clientConnected, clientAddress):
                     clientConnected.send(receivedData.encode())
             
             
-        except :
+        except KeyboardInterrupt:
+            quit()
             print("Error: Steve might be down :(")
         print(f"Client {clientAddress} disconnected")            
         clientConnected.close()
