@@ -157,6 +157,7 @@ def handle_client(clientConnected, clientAddress):
                     latlang = clientConnected.recv(1024)
                     print("Received latlong ")
                     print(latlang)    
+                    print("Len of client ", len(latlang))
                     clientConnected.send('00000002'.encode())
                     print("check 2 sent ")
         
