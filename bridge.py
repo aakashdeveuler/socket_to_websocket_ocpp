@@ -6,6 +6,7 @@ import time
 import websockets
 import socket
 import threading
+import binascii
 
 from ocpp.v16 import ChargePoint as cp
 from ocpp.v16 import call
@@ -154,7 +155,7 @@ def handle_client(clientConnected, clientAddress):
                     clientConnected.send(check.encode())
                     print("Check sent ")
                     # time.sleep(2)
-                    latlang = clientConnected.recv(1024)
+                    latlang = binascii.hexlify(clientConnected.recv(1024))
                     print("Received latlong ")
                     print(latlang)    
                     print("Len of client ", len(latlang))
