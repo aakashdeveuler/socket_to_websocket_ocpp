@@ -140,7 +140,7 @@ def handle_client(clientConnected, clientAddress):
             print("Accepted a connection request from %s:%s"%(clientAddress[0], clientAddress[1]))
             while connected:
                 dataFromClient = clientConnected.recv(1024).decode()
-                print("data from client :",dataFromClient, end="tt/")
+                print("data from client :",dataFromClient)
                 print("Len of client ", len(dataFromClient))
 
                 
