@@ -162,7 +162,7 @@ def handle_client(clientConnected, clientAddress):
                     # clientConnected.send('00000002'.encode())
                     # print("check 2 sent ")
                 
-                elif(dataFromClient[:4]) == "00000000":
+                elif(dataFromClient[:8]) == "00000000":
                     stateCheck = "00000002"
                     clientConnected.send(stateCheck.encode())
                     print("state response sent")
@@ -171,7 +171,7 @@ def handle_client(clientConnected, clientAddress):
                 else:
                     print("=--------------------")
                     print(dataFromClient)
-                    print(dataFromClient[:8])
+                    print(dataFromClient[:4])
                     print("=--------------------")
                     
                     list = json.loads(dataFromClient)
