@@ -152,6 +152,8 @@ def handle_client(clientConnected, clientAddress):
                 elif(int(dataFromClient[:4],16) == 15):
                     imeiCheck = "01"
                     print("imei received .... ")
+                    if (dataFromClient[4:],16) == 866907053293733:
+                        print("got it")
                     clientConnected.send(imeiCheck.encode())
                     print("Check sent ")
                     # time.sleep(2)
