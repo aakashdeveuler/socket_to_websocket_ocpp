@@ -219,15 +219,16 @@ def handle_client(clientConnected, clientAddress):
                     clientConnected.send(stateCheck.encode())  # converts stateCheck to b'00000002
                     print("state response sent")
                     
+
                     
-                elif(int(dataFromClient[:14],16) == 0):
-                    print(dataFromClient)
-                    print("Waste rsp message")
+                # elif(int(dataFromClient[:14],16) == 0):
+                #     print(dataFromClient)
+                #     print("Waste rsp message")
                 
                     
-                elif(int(dataFromClient[:1],16) == 0):
-                    print(dataFromClient)
-                    print("2nd msg")
+                # elif(int(dataFromClient[:1],16) == 0):
+                #     print(dataFromClient)
+                #     print("2nd msg")
             
         
                 # elif(bytearray.fromhex(dataFromClient[:2]).decode()=='['):  # Notification Messages
