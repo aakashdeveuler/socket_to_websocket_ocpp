@@ -183,7 +183,9 @@ def handle_client(clientConnected, clientAddress):
                     
                 #     receivedData = asyncio.run(main(data, dataID, action))
                 #     clientConnected.send(receivedData.encode())
-                
+                elif len(dataFromClient) == 0:
+                    print("Empty Message")
+                    
                 elif(dataFromClient[14:16]=='7b'):  # Notification Messages
                     dataFromClient = extract_between_strings("5b", "7d5d", dataFromClient)
                     dataFromClient = bytearray.fromhex(dataFromClient).decode()
