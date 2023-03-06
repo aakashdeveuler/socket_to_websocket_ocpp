@@ -199,8 +199,8 @@ def handle_client(clientConnected, clientAddress):
                     action = list[2]
                     
                     receivedData = asyncio.run(main(data, dataID, action))
-                    print(receivedData.encode())
-                    clientConnected.send(receivedData.encode())
+                    print(receivedData)
+                    clientConnected.send(receivedData)
                 
                 elif(dataFromClient[:4] == "000f"): # IMEI Message (000f383636393037303533323933373333)
                     # imei is from imei[2:17]
