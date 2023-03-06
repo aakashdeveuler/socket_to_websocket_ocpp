@@ -8,6 +8,7 @@ import websockets
 import socket
 import threading
 import binascii
+import re
 
 from ocpp.v16 import ChargePoint as cp
 from ocpp.v16 import call
@@ -16,6 +17,14 @@ from ocpp.v16.enums import *
 logging.basicConfig(level=logging.INFO)
 
 DISCONNECT_MESSAGE = "!DISCONNECT"
+
+def extract_between_strings(start, end, text):
+    pattern = re.escape(start) + r'(.*?)' + re.escape(end)
+    match = re.search(pattern, text)
+    if match:
+        return start + match.group(1) + end
+    else:
+        return None
 
 class ChargePoint(cp):
     
@@ -161,7 +170,22 @@ def handle_client(clientConnected, clientAddress):
                     print(f"Client {clientAddress} disconnected")
                     break
                 
-                elif(bytearray.fromhex(dataFromClient[:2]).decode()=='['):  # Notification Messages
+                # elif(bytearray.fromhex(dataFromClient[:2]).decode()=='['):  # Notification Messages
+                #     dataFromClient = bytearray.fromhex(dataFromClient).decode()
+                #     print("=--------------------")
+                #     print(dataFromClient)
+                #     print("=--------------------")
+                    
+                #     list = json.loads(dataFromClient)
+                #     data=list[3]
+                #     dataID = list[1]
+                #     action = list[2]
+                    
+                #     receivedData = asyncio.run(main(data, dataID, action))
+                #     clientConnected.send(receivedData.encode())
+                
+                elif(dataFromClient[14:16]=='7b'):  # Notification Messages
+                    dataFromClient = extract_between_strings("5b", "7d5d", dataFromClient)
                     dataFromClient = bytearray.fromhex(dataFromClient).decode()
                     print("=--------------------")
                     print(dataFromClient)
