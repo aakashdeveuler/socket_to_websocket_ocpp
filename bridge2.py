@@ -107,7 +107,7 @@ class ChargePoint(cp):
             
         elif action == "starttransaction":
             request = call.StartTransactionPayload(
-                connector_id=data.get("connectorId"), id_tag=data.get("idTag"), meter_start=data.get("meterStart"), reservation_id=data.get("reservationId"), timestamp=data.get("timestamp")
+                connector_id=data.get("connectorId"), id_tag=data.get("idTag"), meter_start=data.get("meterStart"), timestamp=data.get("timestamp")
             )
             
             response = await self.call(request, dataID)
