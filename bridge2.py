@@ -211,9 +211,6 @@ def handle_client(clientConnected, clientAddress):
                     clientConnected.send(imeiCheck.encode())  # converts imeiCheck to b'01
                     print("Check sent ")
                 
-                elif(int(dataFromClient[:14],16) == 0):
-                    print(dataFromClient)
-                    print("Waste rsp message")
                 
                 elif(dataFromClient[16:18] == "8e" or bytearray.fromhex(dataFromClient[:2]).decode()=='/'):  # this is State message (longitude, latitude)
                 # elif(int(dataFromClient[:1],16) == 0):  # this is State message (longitude, latitude)
@@ -221,6 +218,12 @@ def handle_client(clientConnected, clientAddress):
                     stateCheck = "00000002"
                     clientConnected.send(stateCheck.encode())  # converts stateCheck to b'00000002
                     print("state response sent")
+                    
+                    
+                elif(int(dataFromClient[:14],16) == 0):
+                    print(dataFromClient)
+                    print("Waste rsp message")
+                
                     
                 elif(int(dataFromClient[:1],16) == 0):
                     print(dataFromClient)
