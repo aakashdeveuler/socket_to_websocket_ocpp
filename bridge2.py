@@ -129,7 +129,7 @@ async def main(data, dataID, action):
     receive_data=""
     action = action.lower()
     async with websockets.connect(
-        "ws://13.234.76.186:8080/steve/websocket/CentralSystemService/"+dataID, subprotocols=["ocpp1.6"]
+        "ws://13.234.76.186:8080/steve/websocket/CentralSystemService/1234", subprotocols=["ocpp1.6"]
     ) as ws:
 
         cp = ChargePoint(dataID, ws)
@@ -209,8 +209,12 @@ def handle_client(clientConnected, clientAddress):
                     clientConnected.send(imeiCheck.encode())  # converts imeiCheck to b'01
                     print("Check sent ")
                 
+                elif(int(dataFromClient[:14],16) == 0):
+                    print("Waste rsp message")
+                
                 elif(int(dataFromClient[:8],16) == 0 or bytearray.fromhex(dataFromClient[:2]).decode()=='/'):  # this is State message (longitude, latitude)
                 # elif(int(dataFromClient[:1],16) == 0):  # this is State message (longitude, latitude)
+
                     stateCheck = "00000002"
                     clientConnected.send(stateCheck.encode())  # converts stateCheck to b'00000002
                     print("state response sent")
