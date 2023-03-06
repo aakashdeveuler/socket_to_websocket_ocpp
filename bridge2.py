@@ -201,7 +201,7 @@ def handle_client(clientConnected, clientAddress):
                     receivedData = asyncio.run(main(data, dataID, action))
                     clientConnected.send(receivedData.encode())
                 
-                elif(int(dataFromClient[:4],16) == 15): # IMEI Message (000f383636393037303533323933373333)
+                elif(dataFromClient[:4] == "000f"): # IMEI Message (000f383636393037303533323933373333)
                     # imei is from imei[2:17]
                     imei = (bytearray.fromhex(dataFromClient).decode())
                     # print(len(imei))
@@ -212,9 +212,10 @@ def handle_client(clientConnected, clientAddress):
                     print("Check sent ")
                 
                 elif(int(dataFromClient[:14],16) == 0):
+                    print(dataFromClient)
                     print("Waste rsp message")
                 
-                elif(int(dataFromClient[:8],16) == 0 or bytearray.fromhex(dataFromClient[:2]).decode()=='/'):  # this is State message (longitude, latitude)
+                elif(dataFromClient[16:18] == "8e" or bytearray.fromhex(dataFromClient[:2]).decode()=='/'):  # this is State message (longitude, latitude)
                 # elif(int(dataFromClient[:1],16) == 0):  # this is State message (longitude, latitude)
 
                     stateCheck = "00000002"
@@ -222,6 +223,7 @@ def handle_client(clientConnected, clientAddress):
                     print("state response sent")
                     
                 elif(int(dataFromClient[:1],16) == 0):
+                    print(dataFromClient)
                     print("2nd msg")
             
         
@@ -241,9 +243,9 @@ def handle_client(clientConnected, clientAddress):
                     
                 else:
                     print("Received Message in not in our Records !!!")
-                    connected = False
-                    print(f"Client {clientAddress} disconnected")
-                    break
+                    # connected = False
+                    # print(f"Client {clientAddress} disconnected")
+                    # break
             
         except Exception as e:
             print(e)
