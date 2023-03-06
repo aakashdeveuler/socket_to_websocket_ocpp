@@ -171,11 +171,14 @@ def handle_client(clientConnected, clientAddress):
                     clientConnected.send(imeiCheck.encode())  # converts imeiCheck to b'01
                     print("Check sent ")
                 
-                # elif(int(dataFromClient[:8],16) == 0 or bytearray.fromhex(dataFromClient[:2]).decode()=='/'):  # this is State message (longitude, latitude)
-                elif(int(dataFromClient[:1],16) == 0):  # this is State message (longitude, latitude)
+                elif(int(dataFromClient[:8],16) == 0 or bytearray.fromhex(dataFromClient[:2]).decode()=='/'):  # this is State message (longitude, latitude)
+                # elif(int(dataFromClient[:1],16) == 0):  # this is State message (longitude, latitude)
                     stateCheck = "00000002"
                     clientConnected.send(stateCheck.encode())  # converts stateCheck to b'00000002
                     print("state response sent")
+                    
+                elif(int(dataFromClient[:1],16) == 0):
+                    print("2nd msg")
             
         
                 elif(bytearray.fromhex(dataFromClient[:2]).decode()=='['):  # Notification Messages
@@ -198,7 +201,8 @@ def handle_client(clientConnected, clientAddress):
                     print(f"Client {clientAddress} disconnected")
                     break
             
-        except KeyboardInterrupt:
+        except Exception as e:
+            print(e)
             quit()
             print("Error: Steve might be down :(")
         print(f"Client {clientAddress} disconnected")            
