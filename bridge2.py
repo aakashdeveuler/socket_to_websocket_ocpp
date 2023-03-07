@@ -226,21 +226,21 @@ def run_server():
     print("[STARTING] server is starting ....")
     # Create a TCP socket and bind it to a local address and port
     serverSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    serverSocket.bind(("localhost", 12345))
+    serverSocket.bind(("172.31.8.31", 12345))
     # Listen for incoming connections
     serverSocket.listen(50)
-    # clientConnected, clientAddress = serverSocket.accept()
+    clientConnected, clientAddress = serverSocket.accept()
     
-    # handle_client(clientConnected, clientAddress)
+    handle_client(clientConnected, clientAddress)
     
-    while(True):
-        # Accept a new client connection
-        clientConnected, clientAddress = serverSocket.accept()
+    # while(True):
+    #     # Accept a new client connection
+    #     clientConnected, clientAddress = serverSocket.accept()
         
-        # Create a new thread to handle the client connection
-        thread = threading.Thread(target=handle_client, args=(clientConnected, clientAddress))
-        thread.start()
-        print(f"[ACTIVE CONNECTIONS] {threading.active_count()-1}")
+    #     # Create a new thread to handle the client connection
+    #     thread = threading.Thread(target=handle_client, args=(clientConnected, clientAddress))
+    #     thread.start()
+    #     print(f"[ACTIVE CONNECTIONS] {threading.active_count()-1}")
 
 
 if __name__ == "__main__":
