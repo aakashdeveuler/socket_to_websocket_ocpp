@@ -153,17 +153,18 @@ def handle_client(clientConnected, clientAddress):
                 # Assuming TCU will always give data similar to "state".
                 # If data is coming similar to "rsp", then don't do binascii.hexlify()
                 dataFromClient = clientConnected.recv(1024)
-                # print(dataFromClient)
+                print("Data from TCU ")
+                print(dataFromClient)
                 # print(type(dataFromClient))
                 dataFromClient = binascii.hexlify(dataFromClient)  # comment this if no slash in message
                 print("Slash(\) removed from byte")
-                # print(dataFromClient)
+                print(dataFromClient)
                 # print("oioioioioioioioioioio")
                 dataFromClient = codecs.decode(dataFromClient, 'utf-8')
                 print("String form of byte")
                 print(dataFromClient)
                 # print(type(dataFromClient))
-                print("oioioioioioioioioioio")
+                # print("oioioioioioioioioioio")
 
                 if dataFromClient == DISCONNECT_MESSAGE:
                     connected = False
@@ -186,8 +187,8 @@ def handle_client(clientConnected, clientAddress):
                     action = list[2]
                     
                     receivedData = asyncio.run(main(data, dataID, action))
-                    print(receivedData.encode("ascii"))
-                    clientConnected.send(receivedData.encode("ascii"))
+                    print(receivedData.encode())
+                    clientConnected.send(receivedData.encode())
                 
                 elif(dataFromClient[:4] == "000f"): # IMEI Message (000f383636393037303533323933373333)
                     # imei is from imei[2:17]
@@ -197,7 +198,7 @@ def handle_client(clientConnected, clientAddress):
                     # print(type(imei))
                     imeiCheck = "01"
                     clientConnected.send(imeiCheck.encode())  # converts imeiCheck to b'01
-                    print("Check sent ")
+                    print("IMEI accepted")
                 
                 
                 elif(dataFromClient[16:18] == "8e" or bytearray.fromhex(dataFromClient[:2]).decode()=='/'):  # this is State message (longitude, latitude)
@@ -225,7 +226,7 @@ def run_server():
     print("[STARTING] server is starting ....")
     # Create a TCP socket and bind it to a local address and port
     serverSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    serverSocket.bind(("172.31.8.31", 12345))
+    serverSocket.bind(("localhost", 12345))
     # Listen for incoming connections
     serverSocket.listen(50)
     clientConnected, clientAddress = serverSocket.accept()
