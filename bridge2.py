@@ -153,12 +153,12 @@ def handle_client(clientConnected, clientAddress):
                 # Assuming TCU will always give data similar to "state".
                 # If data is coming similar to "rsp", then don't do binascii.hexlify()
                 dataFromClient = clientConnected.recv(1024)
-                print("Data from TCU ")
+                print("Data from TCU in byte")
                 print(dataFromClient)
                 # print(type(dataFromClient))
                 dataFromClient = binascii.hexlify(dataFromClient)  # comment this if no slash in message
-                print("Slash(\) removed from byte")
-                print(dataFromClient)
+                # print("Slash(\) removed from byte")
+                # print(dataFromClient)
                 # print("oioioioioioioioioioio")
                 dataFromClient = codecs.decode(dataFromClient, 'utf-8')
                 print("String form of byte")
