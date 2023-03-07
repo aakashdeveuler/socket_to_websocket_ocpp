@@ -170,19 +170,6 @@ def handle_client(clientConnected, clientAddress):
                     print(f"Client {clientAddress} disconnected")
                     break
                 
-                # elif(bytearray.fromhex(dataFromClient[:2]).decode()=='['):  # Notification Messages
-                #     dataFromClient = bytearray.fromhex(dataFromClient).decode()
-                #     print("=--------------------")
-                #     print(dataFromClient)
-                #     print("=--------------------")
-                    
-                #     list = json.loads(dataFromClient)
-                #     data=list[3]
-                #     dataID = list[1]
-                #     action = list[2]
-                    
-                #     receivedData = asyncio.run(main(data, dataID, action))
-                #     clientConnected.send(receivedData.encode())
                 elif len(dataFromClient) == 0:
                     print("Empty Message")
                     
@@ -220,32 +207,6 @@ def handle_client(clientConnected, clientAddress):
                     clientConnected.send(stateCheck.encode())  # converts stateCheck to b'00000002
                     print("state response sent")
                     
-
-                    
-                # elif(int(dataFromClient[:14],16) == 0):
-                #     print(dataFromClient)
-                #     print("Waste rsp message")
-                
-                    
-                # elif(int(dataFromClient[:1],16) == 0):
-                #     print(dataFromClient)
-                #     print("2nd msg")
-            
-        
-                # elif(bytearray.fromhex(dataFromClient[:2]).decode()=='['):  # Notification Messages
-                #     dataFromClient = bytearray.fromhex(dataFromClient).decode()
-                #     print("=--------------------")
-                #     print(dataFromClient)
-                #     print("=--------------------")
-                    
-                #     list = json.loads(dataFromClient)
-                #     data=list[3]
-                #     dataID = list[1]
-                #     action = list[2]
-                    
-                #     receivedData = asyncio.run(main(data, dataID, action))
-                #     clientConnected.send(receivedData.encode())
-                    
                 else:
                     print("Received Message in not in our Records !!!")
                     # connected = False
@@ -267,16 +228,18 @@ def run_server():
     serverSocket.bind(("172.31.8.31", 12345))
     # Listen for incoming connections
     serverSocket.listen(50)
+    clientConnected, clientAddress = serverSocket.accept()
     
+    handle_client(clientConnected, clientAddress)
     
-    while(True):
-        # Accept a new client connection
-        clientConnected, clientAddress = serverSocket.accept()
+    # while(True):
+    #     # Accept a new client connection
+    #     clientConnected, clientAddress = serverSocket.accept()
         
-        # Create a new thread to handle the client connection
-        thread = threading.Thread(target=handle_client, args=(clientConnected, clientAddress))
-        thread.start()
-        print(f"[ACTIVE CONNECTIONS] {threading.active_count()-1}")
+    #     # Create a new thread to handle the client connection
+    #     thread = threading.Thread(target=handle_client, args=(clientConnected, clientAddress))
+    #     thread.start()
+    #     print(f"[ACTIVE CONNECTIONS] {threading.active_count()-1}")
 
 
 if __name__ == "__main__":
