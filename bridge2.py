@@ -192,7 +192,7 @@ def handle_client(clientConnected, clientAddress):
                 
                 elif(dataFromClient[:4] == "000f"): # IMEI Message (000f383636393037303533323933373333)
                     # imei is from imei[2:17]
-                    imei = (bytearray.fromhex(dataFromClient).decode())
+                    # imei = (bytearray.fromhex(dataFromClient).decode())
                     # print(len(imei))
                     # print(imei[2:17])
                     # print(type(imei))
