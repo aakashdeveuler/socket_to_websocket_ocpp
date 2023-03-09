@@ -174,7 +174,7 @@ def handle_client(clientConnected, clientAddress):
                 elif len(dataFromClient) == 0:
                     print("Empty Message")
                     
-                elif(dataFromClient[14:16]=='7b'):  # Notification Messages
+                elif(len(dataFromClient)>45 and dataFromClient[38:40]=='5b'):  # Notification Messages
                     dataFromClient = extract_between_strings("5b", "7d5d", dataFromClient)
                     dataFromClient = bytearray.fromhex(dataFromClient).decode()
                     print("=--------------------")
