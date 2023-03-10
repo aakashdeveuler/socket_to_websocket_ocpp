@@ -207,6 +207,7 @@ def handle_client(clientConnected, clientAddress):
                     imeiCheck = "01"
                     # time.sleep(2)
                     clientConnected.send(imeiCheck.encode())  # converts imeiCheck to b'01
+                    clientAddress.send("HARSHUL".encode()) # remove this
                     print("IMEI accepted")
                 
                 
