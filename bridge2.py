@@ -189,7 +189,7 @@ def handle_client(clientConnected, clientAddress):
                     receivedData = asyncio.run(main(data, dataID, action))
                     receivedData = str(receivedData)
                     receivedData = receivedData.replace('"', "'")
-                    receivedData = '{"CMD":' + receivedData +'}'
+                    receivedData = '{"CMD":"' + receivedData +'"}'
                     receivedData = str(receivedData)
                     print(receivedData)
                     print(type(receivedData))
