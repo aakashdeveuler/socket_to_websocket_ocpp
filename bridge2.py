@@ -194,6 +194,7 @@ def handle_client(clientConnected, clientAddress):
                     print(receivedData)
                     print(type(receivedData))
                     print(receivedData.encode())
+                    print(receivedData.decode())
                     # time.sleep(2)
                     clientConnected.send(receivedData.encode())
                 
