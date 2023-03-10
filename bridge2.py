@@ -190,6 +190,7 @@ def handle_client(clientConnected, clientAddress):
                     receivedData = str(receivedData)
                     receivedData = receivedData.replace('"', "'")
                     receivedData = '{"CMD":' + receivedData +'}'
+                    receivedData = str(receivedData)
                     print(receivedData)
                     print(type(receivedData))
                     print(receivedData.encode())
