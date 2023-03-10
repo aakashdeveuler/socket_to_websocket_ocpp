@@ -187,6 +187,10 @@ def handle_client(clientConnected, clientAddress):
                     action = list[2]
                     
                     receivedData = asyncio.run(main(data, dataID, action))
+                    receivedData = str(receivedData)
+                    receivedData = receivedData.replace('"', "'")
+                    print(receivedData)
+                    print(type(receivedData))
                     print(receivedData.encode())
                     time.sleep(2)
                     clientConnected.send(receivedData.encode())
