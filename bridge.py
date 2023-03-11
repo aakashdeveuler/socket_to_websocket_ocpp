@@ -140,41 +140,41 @@ def handle_client(clientConnected, clientAddress):
             connected = True
             print("Accepted a connection request from %s:%s"%(clientAddress[0], clientAddress[1]))
             while connected:
-                dataFromClient = binascii.hexlify(clientConnected.recv(1024))
+                dataFromClient = clientConnected.recv(1024)
                 # dataFromClient = clientConnected.recv(1024)
                 print("data from client :",dataFromClient)
-                print("Len of client ", len(dataFromClient))
+                # print("Len of client ", len(dataFromClient))
 
                 if dataFromClient == DISCONNECT_MESSAGE:
                     print(f"Client {clientAddress} disconnected")
                     connected = False
                     break
-                elif(int(dataFromClient[:4],16) == 15):
-                    imeiCheck = "01"
-                    print("imei received .... ")
-                    if (bytes.fromhex(dataFromClient[4:],16).decode('utf-8')) == 866907053293733:
-                        print("got it")
-                    print(int(dataFromClient[4:],16))
-                    clientConnected.send(imeiCheck.encode())
-                    print("Check sent ")
-                    # time.sleep(2)
-                    # latlang = binascii.hexlify(clientConnected.recv(1024))
-                    # print("Received latlong ")
-                    # print(latlang)    
-                    # print("Len of client ", len(latlang))
-                    # clientConnected.send('00000002'.encode())
-                    # print("check 2 sent ")
+                # elif(int(dataFromClient[:4],16) == 15):
+                #     imeiCheck = "01"
+                #     print("imei received .... ")
+                #     if (bytes.fromhex(dataFromClient[4:],16).decode('utf-8')) == 866907053293733:
+                #         print("got it")
+                #     print(int(dataFromClient[4:],16))
+                #     clientConnected.send(imeiCheck.encode())
+                #     print("Check sent ")
+                #     # time.sleep(2)
+                #     # latlang = binascii.hexlify(clientConnected.recv(1024))
+                #     # print("Received latlong ")
+                #     # print(latlang)    
+                #     # print("Len of client ", len(latlang))
+                #     # clientConnected.send('00000002'.encode())
+                #     # print("check 2 sent ")
                 
-                elif(dataFromClient[:8]) == "00000000":
-                    stateCheck = "00000002"
-                    clientConnected.send(stateCheck.encode())
-                    print("state response sent")
+                # elif(dataFromClient[:8]) == "00000000":
+                #     stateCheck = "00000002"
+                #     clientConnected.send(stateCheck.encode())
+                #     print("state response sent")
             
         
                 else:
                     print("=--------------------")
                     print(dataFromClient)
-                    print(dataFromClient[:4])
+                    # print(dataFromClient[:4])
                     print("=--------------------")
                     
                     list = json.loads(dataFromClient)
@@ -228,7 +228,7 @@ def run_server():
     print("[STARTING] server is starting ....")
     # Create a TCP socket and bind it to a local address and port
     serverSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    serverSocket.bind(("172.31.8.31", 12345))
+    serverSocket.bind(("localhost", 12345))
     # Listen for incoming connections
     serverSocket.listen(50)
     

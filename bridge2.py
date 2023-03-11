@@ -187,14 +187,14 @@ def handle_client(clientConnected, clientAddress):
                     action = list[2]
                     
                     receivedData = asyncio.run(main(data, dataID, action))
-                    receivedData = str(receivedData)
-                    receivedData = receivedData.replace('"', "'")
-                    receivedData = '{"CMD":"' + receivedData +'"}'
-                    receivedData = str(receivedData)
+                    # receivedData = str(receivedData)
+                    # receivedData = receivedData.replace('"', "'")
+                    # receivedData = '{"CMD":"' + receivedData +'"}'
+                    # receivedData = str(receivedData)
                     print(receivedData)
                     print(type(receivedData))
                     print(receivedData.encode())
-                    print(receivedData.decode())
+                    # print(receivedData.decode())
                     # time.sleep(2)
                     clientConnected.send(receivedData.encode())
                 
@@ -206,8 +206,7 @@ def handle_client(clientConnected, clientAddress):
                     # print(type(imei))
                     imeiCheck = "01"
                     # time.sleep(2)
-                    clientConnected.send(imeiCheck.encode())  # converts imeiCheck to b'01
-                    clientAddress.send("HARSHUL".encode()) # remove this
+                    # clientConnected.send(imeiCheck.encode())  # converts imeiCheck to b'01
                     print("IMEI accepted")
                 
                 
@@ -215,8 +214,8 @@ def handle_client(clientConnected, clientAddress):
                 # elif(int(dataFromClient[:1],16) == 0):  # this is State message (longitude, latitude)
 
                     stateCheck = "00000002"
-                    time.sleep(2)
-                    clientConnected.send(stateCheck.encode())  # converts stateCheck to b'00000002
+                    # time.sleep(2)
+                    # clientConnected.send(stateCheck.encode())  # converts stateCheck to b'00000002
                     print("state response sent")
                     
                 else:

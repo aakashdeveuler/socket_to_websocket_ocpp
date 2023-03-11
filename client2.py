@@ -6,7 +6,7 @@ DISCONNECT_MSG = "!DISCONNECT"
 def run_client():
     # Create a TCP socket and connect to the server
     client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    client_socket.connect(('13.234.76.186', 12345))
+    client_socket.connect(('localhost', 12345))
     connected = True
     count = 0
     try:
@@ -36,8 +36,9 @@ def run_client():
                 # Receive a response from the server
                 response = client_socket.recv(1024)
                 print(f"Received response from server: {response.decode()}")
-                if count==11:
-                    break
+                # if count==11:
+                #     break
+                count = count%len(msg)
     except:
         print("All test messages passed OR Error: Steve might be down :(")
                 
