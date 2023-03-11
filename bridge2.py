@@ -215,6 +215,7 @@ def handle_client(clientConnected, clientAddress):
 
                     stateCheck = "00000002"
                     # time.sleep(2)
+                    clientConnected.send("hi".encode())
                     # clientConnected.send(stateCheck.encode())  # converts stateCheck to b'00000002
                     print("state response sent")
                     
