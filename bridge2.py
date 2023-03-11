@@ -216,7 +216,7 @@ def handle_client(clientConnected, clientAddress):
                     stateCheck = "00000002"
                     # time.sleep(2)
                     x = {"CMD":"Hi"}
-                    clientConnected.send(json.dumps(x))
+                    clientConnected.send(bytes(json.dumps(x),"utf-8"))
                     # clientConnected.send(stateCheck.encode())  # converts stateCheck to b'00000002
                     print("state response sent")
                     
