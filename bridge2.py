@@ -145,10 +145,12 @@ async def main(data, dataID, action):
 
 
 def handle_client(clientConnected, clientAddress):
+        lock = threading.Lock()
         print(f"[NEW CONNECTION] {clientAddress} connected.")
         try:
             connected = True
             print("Accepted a connection request from %s:%s"%(clientAddress[0], clientAddress[1]))
+            lock.acquire()
             while connected:
                 # Assuming TCU will always give data similar to "state".
                 # If data is coming similar to "rsp", then don't do binascii.hexlify()
@@ -234,6 +236,7 @@ def handle_client(clientConnected, clientAddress):
             print("Error: Steve might be down :(")
         print(f"Client {clientAddress} disconnected")            
         clientConnected.close()
+        lock.release()
                     
 
 def run_server():
