@@ -119,7 +119,7 @@ async def main(data, dataID, action):
     receive_data=""
     action = action.lower()
     async with websockets.connect(
-        "ws://13.234.76.186:8080/steve/websocket/CentralSystemService/"+dataID, subprotocols=["ocpp1.6"]
+        "ws://127.0.0.1:8080/steve/websocket/CentralSystemService/"+dataID, subprotocols=["ocpp1.6"]
     ) as ws:
 
         cp = ChargePoint(dataID, ws)
@@ -135,10 +135,12 @@ async def main(data, dataID, action):
 
 
 def handle_client(clientConnected, clientAddress):
+        # lock = threading.Lock()
         print(f"[NEW CONNECTION] {clientAddress} connected.")
         try:
             connected = True
             print("Accepted a connection request from %s:%s"%(clientAddress[0], clientAddress[1]))
+            # lock.acquire()
             while connected:
                 dataFromClient = clientConnected.recv(1024)
                 # dataFromClient = clientConnected.recv(1024)
@@ -222,13 +224,14 @@ def handle_client(clientConnected, clientAddress):
             print("Error: Steve might be down :(")
         print(f"Client {clientAddress} disconnected")            
         clientConnected.close()
+        # lock.release()
                     
 
 def run_server():
     print("[STARTING] server is starting ....")
     # Create a TCP socket and bind it to a local address and port
     serverSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    serverSocket.bind(("localhost", 12345))
+    serverSocket.bind(("10.10.11.70", 8080))
     # Listen for incoming connections
     serverSocket.listen(50)
     
@@ -238,9 +241,11 @@ def run_server():
         clientConnected, clientAddress = serverSocket.accept()
         
         # Create a new thread to handle the client connection
-        thread = threading.Thread(target=handle_client, args=(clientConnected, clientAddress))
-        thread.start()
-        print(f"[ACTIVE CONNECTIONS] {threading.active_count()-1}")
+        # thread = threading.Thread(target=handle_client, args=(clientConnected, clientAddress))
+        # thread.start()
+        # print(f"[ACTIVE CONNECTIONS] {threading.active_count()-1}")
+        
+        handle_client(clientConnected, clientAddress)
 
 
 if __name__ == "__main__":
