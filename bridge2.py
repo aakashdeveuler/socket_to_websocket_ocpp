@@ -171,8 +171,9 @@ def handle_client(clientConnected, clientAddress):
                     print(f"Client {clientAddress} disconnected")
                     break
                 
-                # elif len(dataFromClient) == 0:
-                #     print("Empty Message")
+                elif len(dataFromClient) == 0:
+                    print("Empty Message")
+                    clientConnected.send("pogo".encode())
                     
                 elif(len(dataFromClient)>45 and dataFromClient[38:40]=='5b'):  # Notification Messages
                     dataFromClient = extract_between_strings("5b", "7d5d", dataFromClient)
