@@ -171,7 +171,7 @@ def handle_client(clientConnected, clientAddress):
                     print(f"Client {clientAddress} disconnected")
                     break
                 
-                elif len(dataFromClient) == 0:
+                elif len(dataFromClient) < 2:
                     print("Empty Message")
                     
                 elif(len(dataFromClient)>45 and dataFromClient[38:40]=='5b'):  # Notification Messages
